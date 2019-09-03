@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": true,
+    "target": "es5",
+    "removeComments": false,
+    "module": "es6",
+    "lib": ["dom.iterable", "dom", "es2015", "es2015.promise"]
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "awesomeTypescriptLoaderOptions": {
+    /* ... */
+  }
+}

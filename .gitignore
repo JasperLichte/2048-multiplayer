@@ -1,0 +1,10 @@
+node_modules
+npm-debug.log
+build
+assets/scripts/bundle.js
+assets/styles/bundle.css
+assets/styles/bundle.css.map
+server/config/Credentials.php
+deploy/dist/
+
+.idea

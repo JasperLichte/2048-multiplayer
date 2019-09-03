@@ -1,0 +1,37 @@
+{
+  "name": "2048-multiplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/app.js",
+  "scripts": {
+    "watch-ts": "tsc -w",
+    "watch-sass": "sass --watch styles/index.scss assets/styles/bundle.css",
+    "build": "tsc && sass --update styles/index.scss assets/styles/bundle.css && webpack",
+    "prepare-deploy": "npm run build && node ./deploy/prepare.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasperLichte/2048-multiplayer.git"
+  },
+  "keywords": [
+    "2048",
+    "game"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JasperLichte/2048-multiplayer/issues"
+  },
+  "homepage": "https://github.com/JasperLichte/2048-multiplayer#readme",
+  "devDependencies": {
+    "@types/node": "^11.9.4",
+    "node": "^12.4.0",
+    "sass": "^1.17.0",
+    "typescript": "^3.3.3",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.3.5"
+  },
+  "dependencies": {
+    "fs-extra": "^8.0.1"
+  }
+}
