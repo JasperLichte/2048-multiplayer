@@ -8,3 +8,4 @@ server/config/Credentials.php
 deploy/dist/
 
 .idea
+package-lock.json
