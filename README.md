@@ -1,2 +1,2 @@
 # 2048-multiplayer
-Verison of 2048 game including multiplayer mode. written in c# and typescript
+Version of 2048 game including multiplayer mode. Written in c# and typescript
