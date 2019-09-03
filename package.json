@@ -6,8 +6,7 @@
   "scripts": {
     "watch-ts": "tsc -w",
     "watch-sass": "sass --watch styles/index.scss assets/styles/bundle.css",
-    "build": "tsc && sass --update styles/index.scss assets/styles/bundle.css && webpack",
-    "prepare-deploy": "npm run build && node ./deploy/prepare.js"
+    "build": "tsc && sass --update styles/index.scss assets/styles/bundle.css && webpack"
   },
   "repository": {
     "type": "git",
@@ -30,8 +29,5 @@
     "typescript": "^3.3.3",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.3.5"
-  },
-  "dependencies": {
-    "fs-extra": "^8.0.1"
   }
 }
