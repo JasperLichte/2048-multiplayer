@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace server.model
 {
-    class Board
+    public class Board
     {
 
         int width;
