@@ -1,5 +1,5 @@
 export default class Tile {
 
-  private value: number;
+  private value: number = 0;
 
 }
