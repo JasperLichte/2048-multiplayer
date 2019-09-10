@@ -5,7 +5,9 @@ export default class Connection {
   private socket: WebSocket;
 
   constructor() {
-    this.socket = new WebSocket(config['SERVER_BASE_PATH']());
+    try {
+      this.socket = new WebSocket(config['SERVER_BASE_PATH']());
+    } catch(e) {}
   }
 
   public getSocket() {
