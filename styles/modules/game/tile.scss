@@ -1,0 +1,15 @@
+.tile {
+  display: inline-flex;
+  width: 50px;
+  height: 50px;
+  padding: 1rem;
+  margin: 4px;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 5px rgba(20, 20, 20, .4);
+
+  &[data-value=v_0] {
+    opacity: 0;
+    box-shadow: none;
+  }
+}

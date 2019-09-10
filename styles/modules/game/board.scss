@@ -1,0 +1,9 @@
+.board {
+  display: inline-block;
+  margin: 1rem;
+  padding: 4px;
+  background: #666;
+  box-shadow: 0 0 5px rgba(20, 20, 20, .4);
+
+  @import './tile.scss';
+}

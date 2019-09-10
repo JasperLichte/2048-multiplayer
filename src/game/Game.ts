@@ -21,6 +21,9 @@ export default class Game {
     playerIds.forEach(id => {
       this.players.push(new Player(id));
     });
+
+    const localPlayer = this.getLocalPlayer();
+    localPlayer && localPlayer.getBoard().render();
   }
 
   public setStatus(status: Status) {

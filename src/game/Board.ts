@@ -1,4 +1,6 @@
 import Tile from "./Tile.js";
+import HtmlHelper from "../helpers/HtmlHelper.js";
+import { $ } from "../helpers/DomHelper.js";
 
 export default class Board {
 
@@ -8,7 +10,6 @@ export default class Board {
 
   constructor() {
     this.init();
-    console.log(this);
   }
 
   private init() {
@@ -21,5 +22,32 @@ export default class Board {
   }
 
   public update(): void {}
+
+  public render() {
+    const $board = HtmlHelper.div(
+      '',
+      {
+        'class': 'board',
+        'id': 'local-player-board',
+      }
+    );
+    
+    for (const row of this.tiles) {
+      const $row = HtmlHelper.div('', {'class': 'row'});
+      for (const tile of row) {
+        const value: number = tile.getValue();
+        $row.appendChild(HtmlHelper.span(
+          value.toString(),
+          {
+            'class': 'tile',
+            'data-value': `v_${value.toString()}`,
+          }
+        ));
+      }
+      $board.appendChild($row);
+    }
+
+    $('#app').appendChild($board);
+  }
 
 }
