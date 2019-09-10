@@ -1,6 +1,6 @@
 import config from '../config/config.js';
 
-export class Connection {
+export default class Connection {
 
   private socket: WebSocket;
 

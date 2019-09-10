@@ -1,4 +1,4 @@
-export class HtmlHelper {
+export default class HtmlHelper {
 
   private static element(type: string) {
     return function(content: string|HTMLElement, attribs: {} = {}) {
