@@ -9,3 +9,10 @@ deploy/dist/
 
 .idea
 package-lock.json
+server/obj/project.assets.json
+server/obj/server.csproj.nuget.cache
+server/obj/server.csproj.nuget.g.props
+server/obj/Debug/netcoreapp2.1/project.razor.json
+server/obj/Debug/netcoreapp2.1/server.assets.cache
+server/obj/Debug/netcoreapp2.1/server.csproj.CoreCompileInputs.cache
+server/obj/Debug/netcoreapp2.1/server.csprojAssemblyReference.cache
