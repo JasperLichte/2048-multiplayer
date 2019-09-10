@@ -24,7 +24,7 @@ export class HtmlHelper {
     content: string|HTMLElement,
     attribs: {} = {},
     target: HTMLElement
-  ) {
+  ): HTMLElement {
     return HtmlHelper.element('div')(content, attribs)(target);
   }
 
@@ -32,7 +32,7 @@ export class HtmlHelper {
     content: string|HTMLElement,
     attribs: {} = {},
     target: HTMLElement
-  ) {
+  ): HTMLElement {
     return HtmlHelper.element('span')(content, attribs)(target);
   }
 
@@ -40,7 +40,7 @@ export class HtmlHelper {
     content: string|HTMLElement,
     attribs: {} = {},
     target: HTMLElement
-  ) {
+  ): HTMLElement {
     return HtmlHelper.element('h1')(content, attribs)(target);
   }
 
@@ -48,7 +48,7 @@ export class HtmlHelper {
     content: string|HTMLElement,
     attribs: {} = {},
     target: HTMLElement
-  ) {
+  ): HTMLElement {
     return HtmlHelper.element('h2')(content, attribs)(target);
   }
 
@@ -56,7 +56,7 @@ export class HtmlHelper {
     content: string|HTMLElement,
     attribs: {} = {},
     target: HTMLElement
-  ) {
+  ): HTMLElement {
     return HtmlHelper.element('p')(content, attribs)(target);
   }
 
