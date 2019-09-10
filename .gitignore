@@ -9,4 +9,3 @@ deploy/dist/
 
 .idea
 package-lock.json
-server/obj/
