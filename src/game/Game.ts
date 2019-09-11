@@ -1,5 +1,6 @@
 import Player from "./Player.js";
 import Status from "./Status.js";
+import Board from "./Board.js";
 
 export default class Game {
 
@@ -21,9 +22,6 @@ export default class Game {
     playerIds.forEach(id => {
       this.players.push(new Player(id));
     });
-
-    const localPlayer = this.getLocalPlayer();
-    localPlayer && localPlayer.getBoard().render();
   }
 
   public setStatus(status: Status) {
@@ -40,7 +38,16 @@ export default class Game {
     return null;
   }
 
-  public start(): void {}
+  public start(): void {
+    const localPlayer = this.getLocalPlayer();
+    if (!localPlayer) {
+      return;
+    }
+    const board: Board = localPlayer.getBoard();
+    board.randomlyInsertNewTile();
+    board.randomlyInsertNewTile();
+    board.render();
+  }
 
   public end(): void {}
 

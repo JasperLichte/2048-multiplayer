@@ -16,12 +16,28 @@ export default class Board {
     for (let y = 0; y < this.height; y++) {
       this.tiles[y] = [];
       for (let x = 0; x < this.width; x++) {
-        this.tiles[y][x] = new Tile();
+        this.tiles[y][x] = new Tile(0);
       }
     }
   }
 
   public update(): void {}
+
+  public randomlyInsertNewTile() {
+    const options: Array<{x: number, y: number}> = [];
+    for (let y = 0; y < this.tiles.length; y++) {
+      for (let x = 0; x < this.tiles[y].length; x++) {
+        if (!this.tiles[y][x].getValue()) {
+          options.push({x, y});
+        }
+      }
+    }
+    if (!options.length) {
+      return;
+    }
+    const spot = options[Math.floor(Math.random() * options.length)];
+    this.tiles[spot.y][spot.x] = new Tile(Math.random() > 0.5 ? 2 : 4);
+  }
 
   public render() {
     const $board = HtmlHelper.div(
