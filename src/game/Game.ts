@@ -47,6 +47,7 @@ export default class Game {
     board.randomlyInsertNewTile();
     board.randomlyInsertNewTile();
     board.render();
+    localPlayer.listenForInputs();
   }
 
   public end(): void {}

@@ -4,11 +4,13 @@ import { $ } from "../helpers/DomHelper.js";
 
 export default class Board {
 
+  private id: number;
   private readonly width = 4;
   private readonly height = 4;
   private tiles: Tile[][] = [];
 
-  constructor() {
+  constructor(id: number) {
+    this.id = id,
     this.init();
   }
 
@@ -21,7 +23,22 @@ export default class Board {
     }
   }
 
-  public update(): void {}
+  public update(): void {
+    const $board: HTMLElement = $(`#board-${this.id}`);
+    if (!$board) return;
+
+    this.tiles.forEach((row: Tile[], y) => {
+      const $row = $board.querySelector(`.row:nth-of-type(${y + 1})`);
+      if (!$row) return;
+      row.forEach((tile: Tile, x) => {
+        const $tile = $row.querySelector(`.tile:nth-of-type(${x + 1})`);
+        if (!$tile) return;
+        const value = tile.getValue();
+        $tile.innerHTML = value.toString();
+        $tile.setAttribute('data-value', `v_${value.toString()}`);
+      });
+    });
+  }
 
   public randomlyInsertNewTile() {
     const options: Array<{x: number, y: number}> = [];
@@ -44,7 +61,7 @@ export default class Board {
       '',
       {
         'class': 'board',
-        'id': 'local-player-board',
+        'id': `board-${this.id}`,
       }
     );
     
@@ -65,5 +82,12 @@ export default class Board {
 
     $('#app').appendChild($board);
   }
+
+  public static shiftToRight(tiles: Tile[][]): [Tile[][], boolean] {
+    return [null, false];
+  }
+
+  public getTiles = () => this.tiles;
+  public setTiles = (tiles: Tile[][]) => this.tiles = tiles;
 
 }
