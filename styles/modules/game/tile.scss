@@ -1,26 +1,70 @@
 .tile {
   display: inline-flex;
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
   padding: 1rem;
-  margin: 2px;
+  margin: 6px;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 0 5px rgba(20, 20, 20, .4);
   color: #222;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
+  border-radius: 2px;
 
   &[data-value=v_0] {
     color: transparent;
-    background-color: transparent;
+    background-color: rgb(204, 192, 179);
   }
   
   &[data-value=v_2] {
-    background-color: goldenrod;
+    background-color: rgb(238, 228, 218);
   }
 
   &[data-value=v_4] {
-    background-color: darkorange;
+    background-color: rgb(237, 224, 200);
+  }
+
+  &[data-value=v_8] {
+    background-color: rgb(242, 177, 121);
+    color: #eee;
+  }
+
+  &[data-value=v_16] {
+    background-color: rgb(235, 140, 82);
+    color: #eee;
+  }
+
+  &[data-value=v_32] {
+    background-color: rgb(246, 124, 95);
+    color: #eee;
+  }
+
+  &[data-value=v_64] {
+    background-color: rgb(246, 94, 59);
+    color: #eee;
+  }
+
+  &[data-value=v_128] {
+    background-color: rgb(237, 207, 114);
+    color: #eee;
+  }
+
+  &[data-value=v_256] {
+    background-color: rgb(237, 204, 97);
+    color: #eee;
+  }
+
+  &[data-value=v_512] {
+    background-color: rgb(237, 200, 80);
+    color: #eee;
+  }
+
+  &[data-value=v_1024] {
+    background-color: rgb(226, 185, 19);
+    color: #eee;
+  }
+
+  &[data-value=v_2048] {
+    background-color: rgb(237, 194, 46);
     color: #eee;
   }
 }
