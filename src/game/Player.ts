@@ -7,10 +7,12 @@ export default class Player {
   private id: number;
   private board: Board;
   private score: number = 0;
+  private isLocalPlayer: boolean = false;
 
-  constructor(id: number) {
+  constructor(id: number, isLocalPlayer: boolean) {
     this.id = id;
-    this.board = new Board(this.id);
+    this.isLocalPlayer = isLocalPlayer;
+    this.board = new Board(this.id, this.isLocalPlayer);
   }
 
   public getId = () => this.id;

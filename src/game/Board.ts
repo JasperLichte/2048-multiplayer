@@ -9,8 +9,9 @@ export default class Board {
   private readonly width = 4;
   private readonly height = 4;
   private tiles: Tile[][] = [];
+  private isLocalPlayer: boolean = false;
 
-  constructor(id: number) {
+  constructor(id: number, isLocalPlayer: boolean) {
     this.id = id,
     this.init();
   }
@@ -27,8 +28,11 @@ export default class Board {
   public getTiles = () => this.tiles;
   public setTiles = (tiles: Tile[][]) => this.tiles = tiles;
 
-  public render() {
-    const $wrapper = HtmlHelper.div('', {'id': `board-${this.id}`});
+  public render($target: HTMLElement) {
+    const $wrapper = HtmlHelper.div(
+      '',
+      {'id': `board-${this.id} ${this.isLocalPlayer ? 'local' : ''}`}
+    );
     const $score = HtmlHelper.h2('0', {'class': 'score'});
     const $board = HtmlHelper.div('', {'class': 'board'});
     
@@ -49,7 +53,7 @@ export default class Board {
 
     $wrapper.appendChild($score);
     $wrapper.appendChild($board);
-    $('#app').appendChild($wrapper);
+    $target.appendChild($wrapper);
   }
 
   public update(score: number): void {

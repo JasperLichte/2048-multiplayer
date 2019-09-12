@@ -1,6 +1,7 @@
 import Player from "./Player.js";
 import Status from "./Status.js";
 import Board from "./Board.js";
+import { $ } from "../helpers/DomHelper.js";
 
 export default class Game {
 
@@ -20,7 +21,7 @@ export default class Game {
     this.status = status;
 
     playerIds.forEach(id => {
-      this.players.push(new Player(id));
+      this.players.push(new Player(id, id === localPlayerId));
     });
   }
 
@@ -40,13 +41,11 @@ export default class Game {
 
   public start(): void {
     const localPlayer = this.getLocalPlayer();
-    if (!localPlayer) {
-      return;
-    }
+    if (!localPlayer) return;
     const board: Board = localPlayer.getBoard();
     board.randomlyInsertNewTile();
     board.randomlyInsertNewTile();
-    board.render();
+    board.render($('#app'));
     localPlayer.listenForInputs();
   }
 
