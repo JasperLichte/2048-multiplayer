@@ -1,6 +1,7 @@
 import Tile from "./Tile.js";
 import HtmlHelper from "../helpers/HtmlHelper.js";
 import { $ } from "../helpers/DomHelper.js";
+import Direction from "./Direction.js";
 
 export default class Board {
 
@@ -22,6 +23,9 @@ export default class Board {
       }
     }
   }
+
+  public getTiles = () => this.tiles;
+  public setTiles = (tiles: Tile[][]) => this.tiles = tiles;
 
   public update(): void {
     const $board: HTMLElement = $(`#board-${this.id}`);
@@ -83,11 +87,131 @@ export default class Board {
     $('#app').appendChild($board);
   }
 
-  public static shiftToRight(tiles: Tile[][]): [Tile[][], boolean] {
-    return [null, false];
+  public static shift(direction: Direction) {
+    return (tiles: Tile[][]): Tile[][] => {
+      switch (direction) {
+        case Direction.Up:
+          return Board.shiftToTop(tiles);
+        case Direction.Right:
+          return Board.shiftToRight(tiles);
+        case Direction.Down:
+          return Board.shiftToBottom(tiles);
+        case Direction.Left:
+          return Board.shiftToLeft(tiles);
+      }
+      return [];
+    };
   }
 
-  public getTiles = () => this.tiles;
-  public setTiles = (tiles: Tile[][]) => this.tiles = tiles;
+  private static shiftToRight(tiles: Tile[][]): Tile[][]{
+    const newTiles: Tile[][] = [];
+    for (const row of tiles) {
+      const newRow: Tile[] = (row => {
+        const length = row.length;
+        row = row.filter(tile => !!tile.getValue());
+        const emptyTiles: Tile[] = Array(length - row.length).fill(new Tile(0)); 
+        return [...emptyTiles, ...row];
+      })(row);
+      newTiles.push(newRow);
+    }
+    return newTiles;
+  }
+
+  private static shiftToLeft(tiles: Tile[][]): Tile[][] {
+    const newTiles: Tile[][] = [];
+    for (const row of tiles) {
+      const newRow: Tile[] = (row => {
+        const length = row.length;
+        row = row.filter(tile => !!tile.getValue());
+        const emptyTiles: Tile[] = Array(length - row.length).fill(new Tile(0)); 
+        return [...emptyTiles, ...row];
+      })(row.reverse());
+      newTiles.push(newRow.reverse());
+    }
+    return newTiles;
+  }
+
+  private static shiftToTop(tiles: Tile[][]): Tile[][] {
+    tiles = Board.rotate(tiles);
+    tiles = Board.shiftToLeft(tiles);
+    tiles = Board.unrotate(tiles);
+    return tiles;
+  }
+
+  private static shiftToBottom(tiles: Tile[][]): Tile[][] {
+    tiles = Board.rotate(tiles);
+    tiles = Board.shiftToRight(tiles);
+    tiles = Board.unrotate(tiles);
+    return tiles;
+  }
+
+  private static rotate(tiles: Tile[][]): Tile[][] {
+    return tiles[0].map((col, i) => tiles.map(row => row[i]));
+  }
+
+  private static unrotate(tiles: Tile[][]): Tile[][] {
+    tiles = Board.rotate(tiles);
+    tiles = Board.rotate(tiles);
+    tiles = Board.rotate(tiles);
+    return tiles;
+  }
+
+  public static combine(direction: Direction) {
+    return (tiles: Tile[][]): Tile[][] => {
+      switch (direction) {
+        case Direction.Up:
+          return Board.combineToTop(tiles);
+        case Direction.Right:
+          return Board.combineToRight(tiles);
+        case Direction.Down:
+          return Board.combineToBottom(tiles);
+        case Direction.Left:
+          return Board.combineToLeft(tiles);
+      }
+      return  [];
+    };
+  }
+
+  private static combineToTop(tiles: Tile[][]): Tile[][] {
+    tiles = Board.rotate(tiles);
+    tiles = Board.combineToLeft(tiles);
+    tiles = Board.unrotate(tiles);
+    return tiles;
+  }
+
+  private static combineToRight(tiles: Tile[][]): Tile[][] {
+    const newTiles = [];
+    for (const row of tiles) {
+      for (let i = row.length - 1; i > 0; i--) {
+        if (row[i].getValue() === row[i - 1].getValue()) {
+          row[i] = new Tile(row[i].getValue() + row[i - 1].getValue());
+          row[i - 1] = new Tile(0);
+        }
+      }
+      newTiles.push(row);
+    }
+    return newTiles;
+  }
+
+  private static combineToBottom(tiles: Tile[][]): Tile[][] {
+    tiles = Board.rotate(tiles);
+    tiles = Board.combineToRight(tiles);
+    tiles = Board.unrotate(tiles);
+    return tiles;
+  }
+
+  private static combineToLeft(tiles: Tile[][]): Tile[][] {
+    const newTiles = [];
+    for (const row of tiles.reverse()) {
+      for (let i = row.length - 1; i > 0; i--) {
+        if (row[i].getValue() === row[i - 1].getValue()) {
+          row[i] = new Tile(row[i].getValue() + row[i - 1].getValue())
+          row[i - 1] = new Tile(0);
+        }
+      }
+      newTiles.push(row);
+    }
+    return newTiles.reverse();
+  }
 
 }

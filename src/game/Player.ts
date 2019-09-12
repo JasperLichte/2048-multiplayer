@@ -1,5 +1,6 @@
 import Board from "./Board.js";
 import Tile from "./Tile.js";
+import Direction from "./Direction.js";
 
 export default class Player {
 
@@ -18,32 +19,29 @@ export default class Player {
 
   public listenForInputs() {
     window.addEventListener('keydown', e => {
-      const direction = ((key: string): string => {
-        switch (e.key) {
-          case 'ArrowUp': return 'UP';
-          case 'ArrowRight': return 'RIGHT';
-          case 'ArrowDown': return 'DOWN';
-          case 'ArrowLeft': return 'LEFT';
+      const direction = ((key: string): Direction => {
+        switch (key) {
+          case 'ArrowUp': return Direction.Up;
+          case 'ArrowRight': return Direction.Right;
+          case 'ArrowDown': return Direction.Down;
+          case 'ArrowLeft': return Direction.Left;
         }
-        return '';
+        return null;
       })(e.key);
 
       direction && this.doMove(direction);
     });
   }
 
-  private doMove(direction: string): void {
-    console.log(direction);
-    let boardhasChanged = false;
-    let newBoard: Tile[][];
-    switch (direction) {
-      case 'RIGHT':
-        [newBoard, boardhasChanged] = Board.shiftToRight(this.board.getTiles());
-        break;
-    }
+  private doMove(direction: Direction): void {
+    const shift = Board.shift(direction);
 
-    if (boardhasChanged) {
-      //this.board.setTiles(newBoard.getTiles());
+    let newTiles: Tile[][] = shift(this.board.getTiles());
+    newTiles = Board.combine(direction)(newTiles);
+    newTiles = shift(newTiles);
+
+    if (newTiles.length) {
+      this.board.setTiles(newTiles);
       this.board.randomlyInsertNewTile();
       this.board.update();
     }
