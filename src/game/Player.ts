@@ -16,6 +16,7 @@ export default class Player {
   public getId = () => this.id;
   public getBoard = () => this.board;
   public getScore = () => this.score;
+  private addScore = (score: number) => this.score += score;
 
   public listenForInputs() {
     window.addEventListener('keydown', e => {
@@ -36,14 +37,16 @@ export default class Player {
   private doMove(direction: Direction): void {
     const shift = Board.shift(direction);
 
+    let pointsEarned = 0;
     let newTiles: Tile[][] = shift(this.board.getTiles());
-    newTiles = Board.combine(direction)(newTiles);
+    [ newTiles, pointsEarned ] = Board.combine(direction)(newTiles);
     newTiles = shift(newTiles);
 
-    if (newTiles.length && !this.board.isEqualTo(newTiles)) {
+    if (!this.board.isEqualTo(newTiles)) {
       this.board.setTiles(newTiles);
+      this.addScore(pointsEarned);
       this.board.randomlyInsertNewTile();
-      this.board.update();
+      this.board.update(this.getScore());
     }
   }
 

@@ -27,9 +27,39 @@ export default class Board {
   public getTiles = () => this.tiles;
   public setTiles = (tiles: Tile[][]) => this.tiles = tiles;
 
-  public update(): void {
-    const $board: HTMLElement = $(`#board-${this.id}`);
-    if (!$board) return;
+  public render() {
+    const $wrapper = HtmlHelper.div('', {'id': `board-${this.id}`});
+    const $score = HtmlHelper.h2('0', {'class': 'score'});
+    const $board = HtmlHelper.div('', {'class': 'board'});
+    
+    for (const row of this.tiles) {
+      const $row = HtmlHelper.div('', {'class': 'row'});
+      for (const tile of row) {
+        const value: number = tile.getValue();
+        $row.appendChild(HtmlHelper.span(
+          value.toString(),
+          {
+            'class': 'tile',
+            'data-value': `v_${value.toString()}`,
+          }
+        ));
+      }
+      $board.appendChild($row);
+    }
+
+    $wrapper.appendChild($score);
+    $wrapper.appendChild($board);
+    $('#app').appendChild($wrapper);
+  }
+
+  public update(score: number): void {
+    const $wrapper: HTMLElement = $(`#board-${this.id}`); 
+    const $board: HTMLElement = $wrapper.querySelector('.board');
+    const $score: HTMLElement = $wrapper.querySelector('.score');
+
+    if (!$board || !$score) return;
+
+    $score.textContent = `${score}`;
 
     this.tiles.forEach((row: Tile[], y) => {
       const $row = $board.querySelector(`.row:nth-of-type(${y + 1})`);
@@ -38,7 +68,7 @@ export default class Board {
         const $tile = $row.querySelector(`.tile:nth-of-type(${x + 1})`);
         if (!$tile) return;
         const value = tile.getValue();
-        $tile.innerHTML = value.toString();
+        $tile.textContent = value.toString();
         $tile.setAttribute('data-value', `v_${value.toString()}`);
       });
     });
@@ -58,33 +88,6 @@ export default class Board {
     }
     const spot = options[Math.floor(Math.random() * options.length)];
     this.tiles[spot.y][spot.x] = new Tile(Math.random() > 0.5 ? 2 : 4);
-  }
-
-  public render() {
-    const $board = HtmlHelper.div(
-      '',
-      {
-        'class': 'board',
-        'id': `board-${this.id}`,
-      }
-    );
-    
-    for (const row of this.tiles) {
-      const $row = HtmlHelper.div('', {'class': 'row'});
-      for (const tile of row) {
-        const value: number = tile.getValue();
-        $row.appendChild(HtmlHelper.span(
-          value.toString(),
-          {
-            'class': 'tile',
-            'data-value': `v_${value.toString()}`,
-          }
-        ));
-      }
-      $board.appendChild($row);
-    }
-
-    $('#app').appendChild($board);
   }
 
   public static shift(direction: Direction) {
@@ -157,7 +160,7 @@ export default class Board {
   }
 
   public static combine(direction: Direction) {
-    return (tiles: Tile[][]): Tile[][] => {
+    return (tiles: Tile[][]): [Tile[][], number] => {
       switch (direction) {
         case Direction.Up:
           return Board.combineToTop(tiles);
@@ -168,50 +171,59 @@ export default class Board {
         case Direction.Left:
           return Board.combineToLeft(tiles);
       }
-      return  [];
+      return [[], 0];
     };
   }
 
-  private static combineToTop(tiles: Tile[][]): Tile[][] {
+  private static combineToTop(tiles: Tile[][]): [Tile[][], number] {
+    let points = 0;
     tiles = Board.rotate(tiles);
-    tiles = Board.combineToLeft(tiles);
+    [tiles, points] = Board.combineToLeft(tiles);
     tiles = Board.unrotate(tiles);
-    return tiles;
+    return [tiles, points];
   }
 
-  private static combineToRight(tiles: Tile[][]): Tile[][] {
+  private static combineToRight(tiles: Tile[][]): [Tile[][], number] {
     const newTiles = [];
+    let points = 0;
     for (const row of tiles) {
       for (let i = row.length - 1; i > 0; i--) {
         if (row[i].getValue() === row[i - 1].getValue()) {
-          row[i] = new Tile(row[i].getValue() + row[i - 1].getValue());
+          const newValue = row[i].getValue() + row[i - 1].getValue();
+          points += newValue;
+          row[i] = new Tile(newValue);
           row[i - 1] = new Tile(0);
         }
       }
       newTiles.push(row);
     }
-    return newTiles;
+    return [newTiles, points];
   }
 
-  private static combineToBottom(tiles: Tile[][]): Tile[][] {
+  private static combineToBottom(tiles: Tile[][]): [Tile[][], number] {
+    let points = 0;
     tiles = Board.rotate(tiles);
-    tiles = Board.combineToRight(tiles);
+    [tiles, points] = Board.combineToRight(tiles);
     tiles = Board.unrotate(tiles);
-    return tiles;
+    return [tiles, points];
   }
 
-  private static combineToLeft(tiles: Tile[][]): Tile[][] {
+  private static combineToLeft(tiles: Tile[][]): [Tile[][], number] {
     const newTiles = [];
-    for (const row of tiles.reverse()) {
+    let points = 0;
+    for (let row of tiles) {
+      row = row.reverse();
       for (let i = row.length - 1; i > 0; i--) {
         if (row[i].getValue() === row[i - 1].getValue()) {
-          row[i] = new Tile(row[i].getValue() + row[i - 1].getValue())
+          const newValue = row[i].getValue() + row[i - 1].getValue();
+          row[i] = new Tile(newValue);
+          points += newValue;
           row[i - 1] = new Tile(0);
         }
       }
-      newTiles.push(row);
+      newTiles.push(row.reverse());
     }
-    return newTiles.reverse();
+    return [newTiles, points];
   }
 
   public isEqualTo(other: Tile[][]): boolean {
