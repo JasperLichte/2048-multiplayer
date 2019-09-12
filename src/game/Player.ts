@@ -40,7 +40,7 @@ export default class Player {
     newTiles = Board.combine(direction)(newTiles);
     newTiles = shift(newTiles);
 
-    if (newTiles.length) {
+    if (newTiles.length && !this.board.isEqualTo(newTiles)) {
       this.board.setTiles(newTiles);
       this.board.randomlyInsertNewTile();
       this.board.update();

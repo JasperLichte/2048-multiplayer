@@ -214,4 +214,15 @@ export default class Board {
     return newTiles.reverse();
   }
 
+  public isEqualTo(other: Tile[][]): boolean {
+    for (let y = 0; y < other.length; y++) {
+      for (let x = 0; y < other[y].length; x++) {
+        if (other[y][x] !== this.tiles[y][x]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
 }
