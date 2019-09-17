@@ -13,6 +13,7 @@ namespace server.model
         public Game(){
             Random random = new Random();
             this.id = random.Next();
+            this.players = new List<Player>();
         }
 
         public bool enterInGame()
@@ -22,6 +23,21 @@ namespace server.model
                return true;
            }
             return false;
+        }
+
+            public Boolean registerPlayer(Player player){
+                if (players.Find( x => x.id == player.id)!=null)
+                {
+                    Console.WriteLine($"Player with id {player.id} already registered");
+                    return false;
+                }
+            players.Add(player);
+            if (players.Count==1)
+            {
+              player.isAdmin=true;  
+            }
+            Console.WriteLine($"Player with id {player.id} registered!");
+            return true;
         }
     }
 }

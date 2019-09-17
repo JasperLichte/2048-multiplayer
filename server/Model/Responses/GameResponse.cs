@@ -1,18 +1,18 @@
 using Newtonsoft.Json;
 using server.websocket;
 
-namespace server.model
+namespace server.model.responses
 {
-    public class Response
+    public class GameResponse:IResponse
     {
         //gameid,
         [JsonProperty]
-        public ResponseTypes _type;
+        public ResponseTypes type;
         [JsonProperty]
         public Game game {get;set;}
-        public Response(ResponseTypes type, Game game )
+        public GameResponse(ResponseTypes type, Game game )
         {
-            this._type = type;
+            this.type = type;
             this.game = game;
 
         }

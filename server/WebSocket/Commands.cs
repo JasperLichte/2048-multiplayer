@@ -6,9 +6,11 @@ namespace server.websocket
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Commands
     {
-        GAME_REGISTER=1,
-        GAME_START=2,
-        UPDATE=3,
-        USER_REGISTER=4
+        REGISTER=1,
+        ROUND_START=2,
+        GET_UPDATE=3,
+        DO_PLAYER_UPDATE=4,
+        GET_PLAYER_BOARD=5,
+        UNREGISTER=6
     }
 }

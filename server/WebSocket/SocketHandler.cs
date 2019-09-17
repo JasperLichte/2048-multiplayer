@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.WebSockets;
 using System.Text;
@@ -7,14 +8,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using server.model;
+using server.model.responses;
 
 namespace server.websocket
 {
     //Author: 
     //Author: Ricardo Kittmann
+
+    //notes:
+    //timer beendet round end message
     class SocketHandler
     {
         WebSocket webSocket;
+        List<WebSocket> webSocketList = new List<WebSocket>();
+        GameHandler gameHandler =  GameHandler.getHandler();
         CancellationTokenSource source;
         CancellationToken ct;
         internal async Task socketHandle(HttpContext context, WebSocket websocket)
@@ -37,15 +44,33 @@ namespace server.websocket
                     {
                         default:
                             break;
-                        case Commands.GAME_REGISTER:
-                                await SendResponseJson(this.webSocket, new Response(ResponseTypes.REGISTER, new Game() ), ct);
+                        case Commands.REGISTER:
+                        //existiert game?
+                        //isAdmin?
+                        //direkt danach Update schicken mit allen spielern
+                        
+                                await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
                                 Console.WriteLine("Send Game register response");
                             break;
-                        case Commands.GAME_START:
-
-                            await SendResponseJson(this.webSocket, new Response(ResponseTypes.GAME_START, new Game() ), ct);
+                        case Commands.ROUND_START:
+                        //ersteller des games kann nur starten.
+                            await SendResponseJson(this.webSocket, new GameResponse(ResponseTypes.GAME_STARTED, new Game() ), ct);
                             break;
-
+                        case Commands.GET_UPDATE:
+                        //übriger timer
+                        //nur scores vom spieler keine Felder
+                        //
+                        break;
+                        case Commands.DO_PLAYER_UPDATE:
+                            //keine Antwort
+                            //update den spieler
+                        break;
+                        case Commands.GET_PLAYER_BOARD:
+                        //send board of playerid
+                        break;
+                        case Commands.UNREGISTER:
+                        //unregistered oder game ended wenn admin leaved
+                        break;
                     }
                 }
                 else
@@ -84,14 +109,14 @@ namespace server.websocket
         public async void sendMessage(ResponseTypes responseType, Game game)
         {
             CancellationToken ct = source.Token;
-            await SendResponseJson(this.webSocket, new Response(responseType, game ), ct);
+            await SendResponseJson(this.webSocket, new GameResponse(responseType, game ), ct);
         }
         public void cancelCTSource()
         {
             this.source.Cancel();
         }
 
-        private Task SendResponseJson(WebSocket webSocket, Response response, CancellationToken ct)
+        private Task SendResponseJson(WebSocket webSocket, IResponse response, CancellationToken ct)
         {
             string data = JsonConvert.SerializeObject(response);
             var buffer = Encoding.UTF8.GetBytes(data);
