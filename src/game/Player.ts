@@ -1,6 +1,8 @@
 import Board from "./Board.js";
 import Tile from "./Tile.js";
 import Direction from "./Direction.js";
+import MessageHandler from "../socket/MessageHandler.js";
+import RequestTypes from "../socket/RequestTypes.js";
 
 export default class Player {
 
@@ -40,7 +42,7 @@ export default class Player {
     const shift = Board.shift(direction);
 
     let pointsEarned = 0;
-    let newTiles: Tile[][] = shift(this.board.getTiles());
+    let newTiles = shift(this.board.getTiles());
     [ newTiles, pointsEarned ] = Board.combine(direction)(newTiles);
     newTiles = shift(newTiles);
 
@@ -49,6 +51,14 @@ export default class Player {
       this.addScore(pointsEarned);
       this.board.randomlyInsertNewTile();
       this.board.update(this.getScore());
+      
+      MessageHandler.send(
+        RequestTypes.DO_PLAYER_UPDATE,
+        {
+          newScore: this.getScore(),
+          board: this.board.getTiles(),
+        }
+      );
     }
   }
 
