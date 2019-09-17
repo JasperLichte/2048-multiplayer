@@ -1,5 +1,6 @@
 using System;
 using server.model;
+using server.model.interfaces;
 using server.model.responses;
 
 namespace server
@@ -32,7 +33,7 @@ namespace server
             return new ErrorResponse();
         }
         public IResponse getUpdate(){
-            return new UpdateResponse(game.players,10L);
+            return new UpdateResponse(game.players,10L,game.status);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using server.model;
+using server.model.interfaces;
 using server.model.responses;
 
 namespace server.websocket

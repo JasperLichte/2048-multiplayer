@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using server.model.interfaces;
 using server.websocket;
 
 namespace server.model.responses

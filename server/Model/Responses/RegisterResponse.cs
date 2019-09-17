@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using server.model.interfaces;
 
 namespace server.model.responses
 {

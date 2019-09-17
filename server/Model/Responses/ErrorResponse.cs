@@ -1,3 +1,5 @@
+using server.model.interfaces;
+
 namespace server.model.responses
 {
     class ErrorResponse : IResponse

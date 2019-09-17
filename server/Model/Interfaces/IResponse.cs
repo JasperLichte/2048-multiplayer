@@ -1,4 +1,4 @@
-namespace server.model
+namespace server.model.interfaces
 {
     interface IResponse
     {
