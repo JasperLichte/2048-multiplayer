@@ -1,0 +1,14 @@
+C:\Projects\github\2048-multiplayer\server\bin\Debug\netcoreapp2.1\server.deps.json
+C:\Projects\github\2048-multiplayer\server\bin\Debug\netcoreapp2.1\server.runtimeconfig.json
+C:\Projects\github\2048-multiplayer\server\bin\Debug\netcoreapp2.1\server.runtimeconfig.dev.json
+C:\Projects\github\2048-multiplayer\server\bin\Debug\netcoreapp2.1\server.dll
+C:\Projects\github\2048-multiplayer\server\bin\Debug\netcoreapp2.1\server.pdb
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.csprojAssemblyReference.cache
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.csproj.CoreCompileInputs.cache
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.RazorAssemblyInfo.cache
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.RazorAssemblyInfo.cs
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.AssemblyInfoInputs.cache
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.AssemblyInfo.cs
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.RazorTargetAssemblyInfo.cache
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.dll
+C:\Projects\github\2048-multiplayer\server\obj\Debug\netcoreapp2.1\server.pdb

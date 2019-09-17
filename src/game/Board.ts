@@ -95,7 +95,7 @@ export default class Board {
       return;
     }
     const spot = options[Math.floor(Math.random() * options.length)];
-    this.tiles[spot.y][spot.x] = new Tile(Math.random() > 0.5 ? 2 : 4);
+    this.tiles[spot.y][spot.x] = new Tile(Math.random() > 0.1 ? 2 : 4);
   }
 
   public static shift(direction: Direction) {
