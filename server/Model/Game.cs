@@ -14,12 +14,12 @@ namespace server.model
             Random random = new Random();
             this.id = random.Next();
             this.players = new List<Player>();
-            this.status= Status.created;
+            this.status= Status.CREATED;
         }
 
         public bool enterInGame()
         {
-           if(status==Status.created)
+           if(status==Status.CREATED)
            {
                return true;
            }
