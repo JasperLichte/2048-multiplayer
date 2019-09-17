@@ -7,12 +7,13 @@ namespace server.model
     public enum ResponseTypes
     {
         UPDATE = 0,
-        REGISTER = 1,
+        REGISTERED = 1,
         UNREGISTER = 2,
-        GAME_START = 3,
-        GAME_END=4,
-        ROUND_START=5,
-        ROUND_END=6,
-        SCORE_UPDATE=7
+        GAME_STARTED = 3,
+        GAME_ENDED=4,
+        ROUND_STARTED=5,
+        ROUND_ENDED=6,
+        SCORE_UPDATE=7,
+        ERROR=8
     }
 }
