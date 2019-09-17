@@ -61,7 +61,6 @@ export default class Board {
 
   public update(score: number): void {
     const $wrapper: HTMLElement = $(`#board-${this.id}`);
-    console.log(`#board-${this.id}`);
     if (!$wrapper) return;
     const $board: HTMLElement = $wrapper.querySelector('.board');
     const $score: HTMLElement = $wrapper.querySelector('.score');
