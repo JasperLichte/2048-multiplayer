@@ -31,7 +31,10 @@ export default class Board {
   public render($target: HTMLElement) {
     const $wrapper = HtmlHelper.div(
       '',
-      {'id': `board-${this.id} ${this.isLocalPlayer ? 'local' : ''}`}
+      {
+        'id': `board-${this.id}`,
+        'class': (this.isLocalPlayer ? 'local' : '')
+      }
     );
     const $score = HtmlHelper.h2('0', {'class': 'score'});
     const $board = HtmlHelper.div('', {'class': 'board'});
@@ -57,7 +60,9 @@ export default class Board {
   }
 
   public update(score: number): void {
-    const $wrapper: HTMLElement = $(`#board-${this.id}`); 
+    const $wrapper: HTMLElement = $(`#board-${this.id}`);
+    console.log(`#board-${this.id}`);
+    if (!$wrapper) return;
     const $board: HTMLElement = $wrapper.querySelector('.board');
     const $score: HTMLElement = $wrapper.querySelector('.score');
 
