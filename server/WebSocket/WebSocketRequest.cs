@@ -4,7 +4,7 @@ namespace server.websocket
 {
     class WebSocketRequest
     {
-        public Commands Command { get; set; }
+        public Commands type { get; set; }
         public Player player{get;set;}
         
     }
