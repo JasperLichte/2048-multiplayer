@@ -9,7 +9,7 @@ export default class Game {
   private playerIds: number[] = [];
   private players: Player[] = [];
   private status: Status;
-  public localPlayerId: number;
+  private localPlayerId: number;
 
   constructor(id: number, localPlayerId: number) {
     this.id = id;
@@ -28,7 +28,9 @@ export default class Game {
 
   public setStatus = (status: Status) => this.status = status;
 
-  private getLocalPlayer(): Player {
+  public getLocalPlayerId = () => this.localPlayerId;
+
+  public getLocalPlayer(): Player {
     for(const player of this.players) {
       if (player.getId() === this.localPlayerId) {
         return player;
@@ -39,6 +41,8 @@ export default class Game {
   }
 
   public start(): void {
+    this.setStatus(Status.RUNNING);
+
     const localPlayer = this.getLocalPlayer();
     if (!localPlayer) return;
     const board: Board = localPlayer.getBoard();
