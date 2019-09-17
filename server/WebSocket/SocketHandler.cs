@@ -45,12 +45,12 @@ namespace server.websocket
                         default:
                             break;
                         case Commands.REGISTER:
-                        //existiert game?
-                        //isAdmin?
                         //direkt danach Update schicken mit allen spielern
                         
                                 await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
                                 Console.WriteLine("Send Game register response");
+                                await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
+                                Console.WriteLine("Send Update response");
                             break;
                         case Commands.ROUND_START:
                         //ersteller des games kann nur starten.
@@ -59,7 +59,7 @@ namespace server.websocket
                         case Commands.GET_UPDATE:
                         //übriger timer
                         //nur scores vom spieler keine Felder
-                        //
+                        await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
                         break;
                         case Commands.DO_PLAYER_UPDATE:
                             //keine Antwort

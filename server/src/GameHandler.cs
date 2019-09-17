@@ -31,5 +31,8 @@ namespace server
             //mia logik wenn spiel beendet ist/neues spiel
             return new ErrorResponse();
         }
+        public IResponse getUpdate(){
+            return new UpdateResponse(game.players,10L);
+        }
     }
 }

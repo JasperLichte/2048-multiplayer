@@ -1,0 +1,4 @@
+.vscode
+bin
+obj/Debug
+obj/Debug/server.csproj.CoreCompileInputs.cache
