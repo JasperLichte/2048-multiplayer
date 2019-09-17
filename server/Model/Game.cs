@@ -14,6 +14,7 @@ namespace server.model
             Random random = new Random();
             this.id = random.Next();
             this.players = new List<Player>();
+            this.status= Status.created;
         }
 
         public bool enterInGame()
