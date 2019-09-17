@@ -1,5 +1,9 @@
 enum Status {
-  unregistered = 0,
+
+  CREATED = 'CREATED',
+  RUNNING = 'RUNNING',
+  FINISHED = 'FINISHED'
+
 };
 
 export default Status;

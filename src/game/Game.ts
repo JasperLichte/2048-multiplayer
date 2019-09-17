@@ -6,28 +6,27 @@ import { $ } from "../helpers/DomHelper.js";
 export default class Game {
 
   private id: number;
+  private playerIds: number[] = [];
   private players: Player[] = [];
   private status: Status;
   public localPlayerId: number;
 
-  constructor(
-    id: number,
-    playerIds: number[],
-    localPlayerId: number,
-    status: Status
-  ) {
+  constructor(id: number, localPlayerId: number) {
     this.id = id;
     this.localPlayerId = localPlayerId;
-    this.status = status;
-
-    playerIds.forEach(id => {
-      this.players.push(new Player(id, id === localPlayerId));
-    });
   }
 
-  public setStatus(status: Status) {
-    this.status = status;
-  };
+  public setPlayerIds = (ids: number[]) => {
+    ids
+      .filter(id => !this.playerIds.includes(id))
+      .forEach(id => this.players.push(new Player(id, id === this.localPlayerId)));
+      
+    this.playerIds = ids;
+  }
+
+  public getStatus = () => this.status;
+
+  public setStatus = (status: Status) => this.status = status;
 
   private getLocalPlayer(): Player {
     for(const player of this.players) {

@@ -1,5 +1,3 @@
-import Globals from  "./Globals.js";
-import Status from "./game/Status.js";
+import Connection from "./socket/Connection.js";
 
-Globals.init(0, [1, 2], 1, Status.unregistered);
-Globals.getGame().start();
+new Connection();
