@@ -40,7 +40,7 @@ namespace server.websocket
                 Console.WriteLine(JsonConvert.SerializeObject(command));
                 if (this.webSocket.State.ToString() == "Open")
                 {
-                    switch (command.Command)
+                    switch (command.type)
                     {
                         default:
                             break;
