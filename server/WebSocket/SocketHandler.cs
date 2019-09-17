@@ -21,8 +21,8 @@ namespace server.websocket
     class SocketHandler
     {
         WebSocket webSocket;
-        List<WebSocket> webSocketList = new List<WebSocket>();
-        GameHandler gameHandler =  GameHandler.getHandler();
+        GameHandler gameHandler = GameHandler.getHandler();
+        BroadcastHandler broadcastHandler = BroadcastHandler.getBroadcastHandler();
         CancellationTokenSource source;
         CancellationToken ct;
         internal async Task socketHandle(HttpContext context, WebSocket websocket)
@@ -46,32 +46,35 @@ namespace server.websocket
                         default:
                             break;
                         case Commands.REGISTER:
-                        //direkt danach Update schicken mit allen spielern
-                        
-                                await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
-                                Console.WriteLine("Send Game register response");
-                                await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
-                                Console.WriteLine("Send Update response");
+                            //direkt danach Update schicken mit allen spielern
+                            await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
+                            Console.WriteLine("Send Game register response");
+                             broadcastHandler.addWebSocket(this.webSocket);
+                            await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
+                            Console.WriteLine("Send Update response");
                             break;
-                        case Commands.ROUND_START:
-                        //ersteller des games kann nur starten.
-                            await SendResponseJson(this.webSocket, new GameResponse(ResponseTypes.GAME_STARTED, new Game() ), ct);
+                        case Commands.GAME_START:
+                            if (gameHandler.startGame())
+                            {
+
+                            }
+                            broadcastHandler.sendResponseToAll(new GameResponse(ResponseTypes.GAME_STARTED, new Game()), ct);
                             break;
                         case Commands.GET_UPDATE:
-                        //übriger timer
-                        //nur scores vom spieler keine Felder
-                        await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
-                        break;
+                            //übriger timer
+                            //nur scores vom spieler keine Felder
+                            await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
+                            break;
                         case Commands.DO_PLAYER_UPDATE:
                             //keine Antwort
                             //update den spieler
-                        break;
+                            break;
                         case Commands.GET_PLAYER_BOARD:
-                        //send board of playerid
-                        break;
+                            //send board of playerid
+                            break;
                         case Commands.UNREGISTER:
-                        //unregistered oder game ended wenn admin leaved
-                        break;
+                            //unregistered oder game ended wenn admin leaved
+                            break;
                     }
                 }
                 else
@@ -110,7 +113,7 @@ namespace server.websocket
         public async void sendMessage(ResponseTypes responseType, Game game)
         {
             CancellationToken ct = source.Token;
-            await SendResponseJson(this.webSocket, new GameResponse(responseType, game ), ct);
+            await SendResponseJson(this.webSocket, new GameResponse(responseType, game), ct);
         }
         public void cancelCTSource()
         {
@@ -124,5 +127,6 @@ namespace server.websocket
             var segment = new ArraySegment<byte>(buffer);
             return webSocket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
         }
+
     }
 }

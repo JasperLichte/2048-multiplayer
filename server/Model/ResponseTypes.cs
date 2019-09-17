@@ -11,9 +11,8 @@ namespace server.model
         UNREGISTER = 2,
         GAME_STARTED = 3,
         GAME_ENDED=4,
-        ROUND_STARTED=5,
-        ROUND_ENDED=6,
-        SCORE_UPDATE=7,
-        ERROR=8
+        SCORE_UPDATE=5,
+        ERROR=6,
+        PLAYER_BOARD=7
     }
 }

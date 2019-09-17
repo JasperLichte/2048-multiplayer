@@ -7,7 +7,7 @@ namespace server.websocket
     public enum Commands
     {
         REGISTER=1,
-        ROUND_START=2,
+        GAME_START=2,
         GET_UPDATE=3,
         DO_PLAYER_UPDATE=4,
         GET_PLAYER_BOARD=5,
