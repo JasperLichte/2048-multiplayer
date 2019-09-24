@@ -10,7 +10,9 @@ namespace server
     class GameHandler
     {
         private Game game;
+        //https://stackoverflow.com/questions/2278525/system-timers-timer-how-to-get-the-time-remaining-until-elapse
         private Timer timer;
+        private Config config;
 
         private static GameHandler gameHandler = new GameHandler();
         public event EventHandler TimerElapsed;
@@ -23,6 +25,7 @@ namespace server
         private GameHandler()
         {
             this.game = new Game();
+            this.config = Config.loadConfig();
         }
         public static GameHandler getHandler()
         {
@@ -36,7 +39,7 @@ namespace server
                 Player player = new Player();
                 if (game.registerPlayer(player))
                 {
-                    return new RegisterResponse(player, game.id);
+                    return new RegisterResponse(player, game.id,config);
                 }
             }
             //mia logik wenn spiel beendet ist/neues spiel
@@ -49,8 +52,7 @@ namespace server
         public Boolean startGame()
         {
             game.status = Status.RUNNING;
-            //timer = new Timer(120000);
-            timer = new Timer(5000);
+            timer = new Timer(config.roundDuration);
             timer.Elapsed += stopGame;
             timer.AutoReset=false;
             timer.Start();

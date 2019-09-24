@@ -31,6 +31,7 @@ namespace server.websocket
             /* var callerIp = context.Connection.RemoteIpAddress; */
             source = new CancellationTokenSource();
             ct = source.Token;
+            Config config = Config.loadConfig();
             while (!source.IsCancellationRequested)
             {
                 if (ct.IsCancellationRequested)
@@ -46,7 +47,6 @@ namespace server.websocket
                         default:
                             break;
                         case Commands.REGISTER:
-                            //direkt danach Update schicken mit allen spielern
                             await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
                             Console.WriteLine("Send Game register response");
                              broadcastHandler.addWebSocket(this.webSocket);

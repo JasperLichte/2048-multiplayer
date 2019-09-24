@@ -1,0 +1,6 @@
+{
+    "maxUsers":24,
+    "boardSize":4,
+    "roundDuration":5000
+
+}

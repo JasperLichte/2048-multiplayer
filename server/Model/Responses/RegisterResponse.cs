@@ -14,12 +14,15 @@ namespace server.model.responses
         public long gameID;
         [JsonProperty]
         public long localPlayerID;
+        [JsonProperty]
+        public Config config;
 
-        public RegisterResponse(Player player, long gameID){
+        public RegisterResponse(Player player, long gameID, Config config){
             this.type=ResponseTypes.REGISTERED;
             this.isAdmin=player.isAdmin;
             this.gameID=gameID;
             this.localPlayerID=player.id;
+            this.config = config;
         }
 
     }

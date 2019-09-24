@@ -6,6 +6,7 @@ namespace server.websocket
     {
         public Commands type { get; set; }
         public Player player{get;set;}
+        public long playerID{get;set;}
         
     }
 }
