@@ -13,6 +13,7 @@ namespace server.model
         GAME_ENDED=4,
         SCORE_UPDATE=5,
         ERROR=6,
-        PLAYER_BOARD=7
+        PLAYER_BOARD=7,
+        GAME_CLOSED=8
     }
 }

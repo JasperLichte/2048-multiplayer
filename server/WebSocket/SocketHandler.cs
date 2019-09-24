@@ -56,9 +56,8 @@ namespace server.websocket
                         case Commands.GAME_START:
                             if (gameHandler.startGame())
                             {
-
+                            broadcastHandler.sendResponseToAll(new GameResponse(ResponseTypes.GAME_STARTED, new Game()));
                             }
-                            broadcastHandler.sendResponseToAll(new GameResponse(ResponseTypes.GAME_STARTED, new Game()), ct);
                             break;
                         case Commands.GET_UPDATE:
                             //übriger timer
@@ -73,7 +72,7 @@ namespace server.websocket
                             //send board of playerid
                             break;
                         case Commands.UNREGISTER:
-                            //unregistered oder game ended wenn admin leaved
+                            gameHandler.unregisterPlayer(command.playerID);
                             break;
                     }
                 }

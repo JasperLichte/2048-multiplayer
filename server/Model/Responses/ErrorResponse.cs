@@ -6,10 +6,10 @@ namespace server.model.responses
     {
         public ResponseTypes type;
         public string message;
-        public ErrorResponse()
+        public ErrorResponse(string message)
         {
             this.type = ResponseTypes.ERROR;
-            this.message="Lorem Ipsum dolor si amet!";
+            this.message=message;
         }
     }
 }

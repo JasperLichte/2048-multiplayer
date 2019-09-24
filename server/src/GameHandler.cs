@@ -39,11 +39,11 @@ namespace server
                 Player player = new Player();
                 if (game.registerPlayer(player))
                 {
-                    return new RegisterResponse(player, game.id,config);
+                    return new RegisterResponse(player, game.id, config);
                 }
             }
             //mia logik wenn spiel beendet ist/neues spiel
-            return new ErrorResponse();
+            return new ErrorResponse("Game is not open for registration!");
         }
         public IResponse getUpdate()
         {
@@ -54,7 +54,7 @@ namespace server
             game.status = Status.RUNNING;
             timer = new Timer(config.roundDuration);
             timer.Elapsed += stopGame;
-            timer.AutoReset=false;
+            timer.AutoReset = false;
             timer.Start();
             Console.WriteLine("Started Timer");
             return true;
@@ -65,6 +65,22 @@ namespace server
             game.status = Status.FINISHED;
             OnTimerElapsed(EventArgs.Empty);
             Console.WriteLine("Stopped Timer");
+        }
+
+        internal void unregisterPlayer(long playerID)
+        {
+            Player player =game.players.Find(x =>
+                x.id == playerID
+            );
+            Console.WriteLine($"Removing player {player.id} from the game");
+            if (player.isAdmin)
+            {
+                Console.WriteLine("Player is admin, removing all players");
+                BroadcastHandler broadcastHandler = BroadcastHandler.getBroadcastHandler();
+                broadcastHandler.sendResponseToAll(new GameClosedResponse());
+                return;
+            }
+            game.players.Remove(player);
         }
     }
 }

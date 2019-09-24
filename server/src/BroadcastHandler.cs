@@ -29,7 +29,7 @@ namespace server
         private void timerElapsed(object sender, EventArgs e)
         {
             Console.WriteLine("Called timeelapsed event");
-            sendResponseToAll(new GameEndedResponse(),ct);
+            sendResponseToAll(new GameEndedResponse());
         }
 
         public static BroadcastHandler getBroadcastHandler()
@@ -45,7 +45,7 @@ namespace server
         {
             websockets.Remove(webSocket);
         }
-        public void sendResponseToAll(IResponse response, CancellationToken ct)
+        public void sendResponseToAll(IResponse response)
         {
             if (websockets.Count > 0)
             {
