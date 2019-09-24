@@ -56,7 +56,12 @@ namespace server
         }
         public IResponse getUpdate()
         {
+            if ((long)(DateTime.Now-startTime).TotalMilliseconds<0)
+            {
+                return new UpdateResponse(game.players, config.roundDuration, game.status);
+            }else{
             return new UpdateResponse(game.players, config.roundDuration-(long)(DateTime.Now-startTime).TotalMilliseconds, game.status);
+            }
         }
         public Boolean startGame()
         {
