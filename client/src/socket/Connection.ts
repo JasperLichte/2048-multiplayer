@@ -24,14 +24,14 @@ export default class Connection {
 
   private onConnect = () => {
     $('#spinner').classList.add('hidden');
-    this.socket.send(JSON.stringify({type: RequestTypes.REGISTER}));
+    MessageHandler.send(RequestTypes.REGISTER);
   }
 
   private onDisconnect() {}
 
   private onMessage(data: {type: string}) {
     if (!data || !Object.entries(data).length) return;
-    console.log(data.type, data);
+    console.log(`<<< ${data.type}`);
     switch (data.type) {
       case RequestTypes.REGISTERED:
         return MessageHandler.registererd(data);

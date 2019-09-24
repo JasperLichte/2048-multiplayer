@@ -63,7 +63,7 @@ export default class Game {
     const board: Board = localPlayer.getBoard();
     board.randomlyInsertNewTile();
     board.randomlyInsertNewTile();
-    board.render($('#app'));
+    board.render($('#game'));
     localPlayer.listenForInputs();
   }
 
@@ -73,7 +73,7 @@ export default class Game {
     const str = `${minutes}:${~~seconds < 10 ? '0' : ''}${seconds}`;
 
     if (!$('#remaining-time')) {
-      HtmlHelper.span(str, {id: 'remaining-time'}, $('#app'));
+      HtmlHelper.span(str, {id: 'remaining-time'}, $('#game'));
     } else {
       $('#remaining-time').innerText = str;
     }

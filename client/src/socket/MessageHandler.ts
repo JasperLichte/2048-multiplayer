@@ -59,9 +59,12 @@ export default class MessageHandler {
 
   // outgoing
   public static send(type: string, data: {} = {}) {
+    console.log(`>>> ${type}`);
     const socket: WebSocket = Globals.connection.getSocket();
     data['type'] = type;
-    data['playerID'] = Globals.game.getLocalPlayerId();
+    if (Globals.game) {
+      data['playerID'] = Globals.game.getLocalPlayerId();
+    }
     socket.send(JSON.stringify(data));
   }
 
