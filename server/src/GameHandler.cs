@@ -27,6 +27,7 @@ namespace server
         {
             this.game = new Game();
             this.config = Config.loadConfig();
+            this.timer=new Timer(config.roundDuration);
         }
         public static GameHandler getHandler()
         {
