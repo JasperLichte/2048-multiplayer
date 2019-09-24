@@ -53,7 +53,7 @@ namespace server.websocket
                         case Commands.GAME_START:
                             if (gameHandler.startGame())
                             {
-                            broadcastHandler.sendResponseToAll(new GameResponse(ResponseTypes.GAME_STARTED, new Game()));
+                            broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, new Game()));
                             broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
                             }
                             break;
@@ -104,11 +104,6 @@ namespace server.websocket
                     return JsonConvert.DeserializeObject<WebSocketRequest>(temp);
                 }
             }
-        }
-        public async void sendMessage(ResponseTypes responseType, Game game)
-        {
-            CancellationToken ct = source.Token;
-            await SendResponseJson(this.webSocket, new GameResponse(responseType, game), ct);
         }
         public void cancelCTSource()
         {
