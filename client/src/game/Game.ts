@@ -68,7 +68,6 @@ export default class Game {
   }
 
   public update() {
-    console.log(this.remainingTime);
     const minutes = Math.floor(this.remainingTime / 60000);
     const seconds = ((this.remainingTime % 60000) / 1000).toFixed(0);
     const str = `${minutes}:${~~seconds < 10 ? '0' : ''}${seconds}`;
