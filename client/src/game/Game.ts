@@ -2,6 +2,7 @@ import Player from "./Player.js";
 import Status from "./Status.js";
 import Board from "./Board.js";
 import { $ } from "../helpers/DomHelper.js";
+import HtmlHelper from "../helpers/HtmlHelper.js";
 
 export default class Game {
 
@@ -68,6 +69,15 @@ export default class Game {
 
   public update() {
     console.log(this.remainingTime);
+    const minutes = Math.floor(this.remainingTime / 60000);
+    const seconds = ((this.remainingTime % 60000) / 1000).toFixed(0);
+    const str = `${minutes}:${~~seconds < 10 ? '0' : ''}${seconds}`;
+
+    if (!$('#remaining-time')) {
+      HtmlHelper.span(str, {id: 'remaining-time'}, $('#app'));
+    } else {
+      $('#remaining-time').innerText = str;
+    }
   }
 
   public end(): void {}

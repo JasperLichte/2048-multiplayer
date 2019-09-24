@@ -4,6 +4,7 @@ import { $ } from "../helpers/DomHelper.js";
 import Config from "../game/Config.js";
 import HtmlHelper from "../helpers/HtmlHelper.js";
 import RequestTypes from "./RequestTypes.js";
+import Status from "../game/Status.js";
 
 export default class MessageHandler {
 
@@ -49,7 +50,9 @@ export default class MessageHandler {
 
   public static unregistered(data: {}) {}
 
-  public static gameEnded(data: {}) {}
+  public static gameEnded(data: {}) {
+    Globals.game.setStatus(Status.FINISHED);
+  }
 
   public static error(data: {}) {}
 
@@ -62,7 +65,11 @@ export default class MessageHandler {
   }
 
   private static initRequestUpdateTimer() {
-    setInterval(() => MessageHandler.send(RequestTypes.GET_UPDATE), 500);
+    setInterval(() => {
+      if (Globals.game.getStatus() !== Status.RUNNING) return;
+      
+      MessageHandler.send(RequestTypes.GET_UPDATE);
+    }, 500)
   }
 
 }
