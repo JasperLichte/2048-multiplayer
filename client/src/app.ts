@@ -13,6 +13,7 @@ Globals.connection = new Connection();
   $start && $start.addEventListener('click', () => {
     const name: string = $name.value;
     if (!name) return;
+    MessageHandler.send(RequestTypes.REGISTER_PLAYER, {name});
     MessageHandler.send(RequestTypes.GAME_START);
     $('#spinner').classList.remove('hidden');
   });
