@@ -62,8 +62,7 @@ namespace server.websocket
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
                             break;
                         case Commands.DO_PLAYER_UPDATE:
-                            //keine Antwort
-                            //update den spieler
+                            gameHandler.updatePlayer(command.playerID,command.newScore,command.board);
                             break;
                         case Commands.GET_PLAYER_BOARD:
                             //send board of playerid

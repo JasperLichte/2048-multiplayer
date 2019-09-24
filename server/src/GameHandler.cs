@@ -95,5 +95,14 @@ namespace server
             }
             game.players.Remove(player);
         }
+
+        internal void updatePlayer(long playerID, long newScore, Board board)
+        {
+            Player player =game.players.Find(x =>
+                x.id == playerID
+            );
+            player.score = newScore;
+            player.Board = board;
+        }
     }
 }
