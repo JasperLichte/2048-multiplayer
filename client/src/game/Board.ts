@@ -13,6 +13,7 @@ export default class Board {
 
   constructor(id: number, isLocalPlayer: boolean) {
     this.id = id,
+    this.isLocalPlayer = isLocalPlayer;
     this.size = Config.BOARD_SIZE;
     this.init();
   }

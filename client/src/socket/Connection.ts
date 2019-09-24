@@ -31,7 +31,9 @@ export default class Connection {
     MessageHandler.send(RequestTypes.REGISTER);
   }
 
-  private onDisconnect() {}
+  private onDisconnect() {
+    $('#spinner').classList.remove('hidden');
+  }
 
   private onMessage(data: {type: string}) {
     if (!data || !Object.entries(data).length) return;
