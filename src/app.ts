@@ -14,6 +14,6 @@ Globals.connection = new Connection();
     const name: string = $name.value;
     if (!name) return;
     MessageHandler.send(RequestTypes.GAME_START);
-    $welcomeCard.querySelector('#spinner').classList.remove('hidden');
+    $('#spinner').classList.remove('hidden');
   });
 })();

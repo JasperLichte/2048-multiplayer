@@ -10,10 +10,12 @@ export default class Player {
   private board: Board;
   private score: number = 0;
   private isLocalPlayer: boolean = false;
+  private isAdmin: boolean = false;
 
-  constructor(id: number, isLocalPlayer: boolean) {
+  constructor(id: number, isLocalPlayer: boolean, isAdmin: boolean) {
     this.id = id;
     this.isLocalPlayer = isLocalPlayer;
+    this.isAdmin = isAdmin;
     this.board = new Board(this.id, this.isLocalPlayer);
   }
 

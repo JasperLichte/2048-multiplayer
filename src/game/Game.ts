@@ -10,16 +10,27 @@ export default class Game {
   private players: Player[] = [];
   private status: Status;
   private localPlayerId: number;
+  private localePlayerIsAdmin: boolean;
 
-  constructor(id: number, localPlayerId: number) {
+  constructor(id: number, localPlayerId: number, isAdmin: boolean) {
     this.id = id;
     this.localPlayerId = localPlayerId;
+    this.localePlayerIsAdmin = isAdmin;
   }
 
   public setPlayerIds = (ids: number[]) => {
-    ids
-      .filter(id => !this.playerIds.includes(id))
-      .forEach(id => this.players.push(new Player(id, id === this.localPlayerId)));
+    const idsToAdd = ids.filter(id => !this.playerIds.includes(id));
+    const idsToRemove = ids.filter(id => this.playerIds.includes(id));
+
+    idsToAdd.forEach(id => this.players.push(
+      new Player(
+        id,
+        (id === this.localPlayerId),
+        (id === this.localPlayerId ? this.localePlayerIsAdmin : false)
+      )
+    ));
+
+    this.players.filter(player => !idsToRemove.includes(player.getId()));
       
     this.playerIds = ids;
   }

@@ -2,24 +2,25 @@ import Tile from "./Tile.js";
 import HtmlHelper from "../helpers/HtmlHelper.js";
 import { $ } from "../helpers/DomHelper.js";
 import Direction from "./Direction.js";
+import Config from "./Config.js";
 
 export default class Board {
 
   private id: number;
-  private readonly width = 4;
-  private readonly height = 4;
+  private size: number;
   private tiles: Tile[][] = [];
   private isLocalPlayer: boolean = false;
 
   constructor(id: number, isLocalPlayer: boolean) {
     this.id = id,
+    this.size = Config.BOARD_SIZE;
     this.init();
   }
 
   private init() {
-    for (let y = 0; y < this.height; y++) {
+    for (let y = 0; y < this.size; y++) {
       this.tiles[y] = [];
-      for (let x = 0; x < this.width; x++) {
+      for (let x = 0; x < this.size; x++) {
         this.tiles[y][x] = new Tile(0);
       }
     }

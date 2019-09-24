@@ -43,6 +43,18 @@
       cursor: pointer;
     }
   }
+
+  #admin-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: firebrick;
+    color: #eee;
+    padding: 16px 128px;
+    font-size: 1.7rem;
+    transform: rotate(45deg) translate(95px, -50px);
+  }
+  
 }
 
 @keyframes spin {

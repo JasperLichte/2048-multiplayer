@@ -1,17 +1,32 @@
 import Globals from "../Globals.js";
 import Game from "../game/Game.js";
 import { $ } from "../helpers/DomHelper.js";
+import Config from "../game/Config.js";
+import HtmlHelper from "../helpers/HtmlHelper.js";
 
 export default class MessageHandler {
 
   public static registererd(data: {}) {
     // @ts-ignore
-    const {gameID, localPlayerID} = data;
-    Globals.game = new Game(gameID, localPlayerID);
+    const { gameID, localPlayerID, isAdmin, config } = data;
+    const { boardSize } = config;
+
+    Config.BOARD_SIZE = boardSize;
+
+    Globals.game = new Game(gameID, localPlayerID, isAdmin);
+
+    if (isAdmin) {
+      HtmlHelper.span(
+        'Admin',
+        {id: 'admin-badge'},
+        $('#welcome-card')
+      );
+    }
   }
 
   public static gameStarted(data: {}) {
     $('#welcome-card').remove();
+    $('#spinner').classList.add('hidden');
     Globals.game.start();
   }
 
