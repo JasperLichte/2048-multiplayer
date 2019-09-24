@@ -12,6 +12,7 @@ namespace server
         private Game game;
         //https://stackoverflow.com/questions/2278525/system-timers-timer-how-to-get-the-time-remaining-until-elapse
         private Timer timer;
+        private DateTime startTime;
         private Config config;
 
         private static GameHandler gameHandler = new GameHandler();
@@ -55,7 +56,8 @@ namespace server
         }
         public IResponse getUpdate()
         {
-            return new UpdateResponse(game.players, 10L, game.status);
+
+            return new UpdateResponse(game.players, config.roundDuration-(DateTime.Now-startTime).Milliseconds, game.status);
         }
         public Boolean startGame()
         {
@@ -64,6 +66,7 @@ namespace server
             timer.Elapsed += stopGame;
             timer.AutoReset = false;
             timer.Start();
+            startTime= DateTime.Now;
             Console.WriteLine("Started Timer");
             return true;
         }

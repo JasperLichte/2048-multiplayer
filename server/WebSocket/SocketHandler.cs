@@ -13,11 +13,8 @@ using server.model.responses;
 
 namespace server.websocket
 {
-    //Author: 
     //Author: Ricardo Kittmann
 
-    //notes:
-    //timer beendet round end message
     class SocketHandler
     {
         WebSocket webSocket;
@@ -60,7 +57,6 @@ namespace server.websocket
                             }
                             break;
                         case Commands.GET_UPDATE:
-                            //übriger timer
                             //nur scores vom spieler keine Felder
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
                             break;
