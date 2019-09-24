@@ -33,7 +33,7 @@ namespace server
         }
         public IResponse registerNewPlayer()
         {
-            if (game.enterInGame())
+            if (game.allowedToRegister())
             {
                 Console.WriteLine($"Game is open for registration...registering player");
                 Player player = new Player();
@@ -42,8 +42,21 @@ namespace server
                     return new RegisterResponse(player, game.id, config);
                 }
             }
-            //mia logik wenn spiel beendet ist/neues spiel
+            if(game.status==Status.FINISHED){
+                this.game = new Game();
+                registerPlayer();
+            }
             return new ErrorResponse("Game is not open for registration!");
+        }
+
+        private IResponse registerPlayer(){
+             Console.WriteLine($"Game is open for registration...registering player");
+                Player player = new Player();
+                if (game.registerPlayer(player))
+                {
+                    return new RegisterResponse(player, game.id, config);
+                }
+                return new ErrorResponse("Player already registered");
         }
         public IResponse getUpdate()
         {
@@ -78,6 +91,8 @@ namespace server
                 Console.WriteLine("Player is admin, removing all players");
                 BroadcastHandler broadcastHandler = BroadcastHandler.getBroadcastHandler();
                 broadcastHandler.sendResponseToAll(new GameClosedResponse());
+                game.close();
+                timer.Stop();
                 return;
             }
             game.players.Remove(player);

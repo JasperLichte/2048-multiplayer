@@ -17,7 +17,7 @@ namespace server.model
             this.status= Status.CREATED;
         }
 
-        public bool enterInGame()
+        public bool allowedToRegister()
         {
            if(status==Status.CREATED)
            {
@@ -39,6 +39,12 @@ namespace server.model
             }
             Console.WriteLine($"Player with id {player.id} registered!");
             return true;
+        }
+
+        internal void close()
+        {
+            this.status=Status.FINISHED;
+            
         }
     }
 }
