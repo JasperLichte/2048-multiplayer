@@ -5,9 +5,11 @@ import { $ } from '../helpers/DomHelper.js';
 
 export default class Connection {
 
+  private static connection = new Connection();
+
   private socket: WebSocket;
 
-  constructor() {
+  private constructor() {
     try {
       this.socket = new WebSocket(config['WEBSOCKET_URL']());
 
@@ -21,6 +23,8 @@ export default class Connection {
       };
     } catch(e) {}
   }
+
+  public static getInstance = () => Connection.connection;
 
   private onConnect = () => {
     $('#spinner').classList.add('hidden');

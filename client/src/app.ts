@@ -4,8 +4,6 @@ import Globals from "./Globals.js";
 import MessageHandler from "./socket/MessageHandler.js";
 import RequestTypes from "./socket/RequestTypes.js";
 
-Globals.connection = new Connection();
-
 (() => {
   const $welcomeCard = $('#welcome-card');
   const $name: HTMLInputElement = $welcomeCard.querySelector('#name');

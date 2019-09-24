@@ -5,6 +5,7 @@ import Config from "../game/Config.js";
 import HtmlHelper from "../helpers/HtmlHelper.js";
 import RequestTypes from "./RequestTypes.js";
 import Status from "../game/Status.js";
+import Connection from "./Connection.js";
 
 export default class MessageHandler {
 
@@ -65,7 +66,7 @@ export default class MessageHandler {
   // outgoing
   public static send(type: string, data: {} = {}) {
     console.log(`>>> ${type}`);
-    const socket: WebSocket = Globals.connection.getSocket();
+    const socket: WebSocket = Connection.getInstance().getSocket();
     data['type'] = type;
     if (Globals.game) {
       data['playerID'] = Globals.game.getLocalPlayerId();
