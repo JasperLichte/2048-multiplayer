@@ -11,6 +11,7 @@ export default class Game {
   private status: Status;
   private localPlayerId: number;
   private localePlayerIsAdmin: boolean;
+  private remainingTime: number;
 
   constructor(id: number, localPlayerId: number, isAdmin: boolean) {
     this.id = id;
@@ -39,6 +40,8 @@ export default class Game {
 
   public setStatus = (status: Status) => this.status = status;
 
+  public setRemainingTime = (remainingTime: number) => this.remainingTime = remainingTime;
+
   public getLocalPlayerId = () => this.localPlayerId;
 
   public getLocalPlayer(): Player {
@@ -61,6 +64,10 @@ export default class Game {
     board.randomlyInsertNewTile();
     board.render($('#app'));
     localPlayer.listenForInputs();
+  }
+
+  public update() {
+    console.log(this.remainingTime);
   }
 
   public end(): void {}
