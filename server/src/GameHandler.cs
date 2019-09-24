@@ -38,38 +38,42 @@ namespace server
             {
                 return registerPlayer();
             }
-            if(game.status==Status.FINISHED){
+            if (game.status == Status.FINISHED)
+            {
                 this.game = new Game();
                 return registerPlayer();
             }
             return new ErrorResponse("Game is not open for registration!");
         }
 
-        private IResponse registerPlayer(){
-             Console.WriteLine($"Game is open for registration...registering player");
-                Player player = new Player();
-                if (game.registerPlayer(player))
-                {
-                    return new RegisterResponse(player, game.id, config);
-                }
-                return new ErrorResponse("Player already registered");
+        private IResponse registerPlayer()
+        {
+            Console.WriteLine($"Game is open for registration...registering player");
+            Player player = new Player();
+            if (game.registerPlayer(player))
+            {
+                return new RegisterResponse(player, game.id, config);
+            }
+            return new ErrorResponse("Player already registered");
         }
         public IResponse getUpdate()
         {
-            if (config.roundDuration-(long)(DateTime.Now-startTime).TotalMilliseconds<0)
+            if (config.roundDuration - (long)(DateTime.Now - startTime).TotalMilliseconds < 0)
             {
                 return new UpdateResponse(game.players, config.roundDuration, game.status);
-            }else{
-            return new UpdateResponse(game.players, config.roundDuration-(long)(DateTime.Now-startTime).TotalMilliseconds, game.status);
+            }
+            else
+            {
+                return new UpdateResponse(game.players, config.roundDuration - (long)(DateTime.Now - startTime).TotalMilliseconds, game.status);
             }
         }
 
         internal void registerPlayerName(long playerID, string name)
         {
-            Player player =game.players.Find(x =>
-                x.id == playerID
+            Player player = game.players.Find(x =>
+                 x.id == playerID
             );
-            player.name=name;
+            player.name = name;
         }
 
         public Boolean startGame()
@@ -79,7 +83,7 @@ namespace server
             timer.Elapsed += stopGame;
             timer.AutoReset = false;
             timer.Start();
-            startTime= DateTime.Now;
+            startTime = DateTime.Now;
             Console.WriteLine("Started Timer");
             return true;
         }
@@ -93,8 +97,8 @@ namespace server
 
         internal void unregisterPlayer(long playerID)
         {
-            Player player =game.players.Find(x =>
-                x.id == playerID
+            Player player = game.players.Find(x =>
+                 x.id == playerID
             );
             Console.WriteLine($"Removing player {player.id} from the game");
             if (player.isAdmin)
@@ -111,8 +115,8 @@ namespace server
 
         internal void updatePlayer(long playerID, long newScore, Board board)
         {
-            Player player =game.players.Find(x =>
-                x.id == playerID
+            Player player = game.players.Find(x =>
+                 x.id == playerID
             );
             player.score = newScore;
             player.Board = board;
