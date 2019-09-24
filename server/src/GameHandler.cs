@@ -63,6 +63,15 @@ namespace server
             return new UpdateResponse(game.players, config.roundDuration-(long)(DateTime.Now-startTime).TotalMilliseconds, game.status);
             }
         }
+
+        internal void registerPlayerName(long playerID, string name)
+        {
+            Player player =game.players.Find(x =>
+                x.id == playerID
+            );
+            player.name=name;
+        }
+
         public Boolean startGame()
         {
             game.status = Status.RUNNING;

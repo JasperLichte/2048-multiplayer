@@ -9,6 +9,6 @@ namespace server.websocket
 
         public long newScore{get;set;}
         public Board board{get;set;}
-        
+        public string name{get;set;}
     }
 }

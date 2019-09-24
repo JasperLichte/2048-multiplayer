@@ -11,6 +11,7 @@ namespace server.websocket
         GET_UPDATE=3,
         DO_PLAYER_UPDATE=4,
         GET_PLAYER_BOARD=5,
-        UNREGISTER=6
+        UNREGISTER=6,
+        REGISTER_PLAYER=7
     }
 }

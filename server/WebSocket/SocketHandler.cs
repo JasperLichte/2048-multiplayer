@@ -46,15 +46,18 @@ namespace server.websocket
                         case Commands.REGISTER:
                             await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
                             Console.WriteLine("Send Game register response");
-                             broadcastHandler.addWebSocket(this.webSocket);
+                            broadcastHandler.addWebSocket(this.webSocket);
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
                             Console.WriteLine("Send Update response");
+                            break;
+                        case Commands.REGISTER_PLAYER:
+                            gameHandler.registerPlayerName(command.playerID,command.name);
                             break;
                         case Commands.GAME_START:
                             if (gameHandler.startGame())
                             {
-                            broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, new Game()));
-                            broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
+                                broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, new Game()));
+                                broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
                             }
                             break;
                         case Commands.GET_UPDATE:
@@ -62,7 +65,7 @@ namespace server.websocket
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
                             break;
                         case Commands.DO_PLAYER_UPDATE:
-                            gameHandler.updatePlayer(command.playerID,command.newScore,command.board);
+                            gameHandler.updatePlayer(command.playerID, command.newScore, command.board);
                             break;
                         case Commands.GET_PLAYER_BOARD:
                             //send board of playerid
