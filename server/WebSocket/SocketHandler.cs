@@ -54,6 +54,7 @@ namespace server.websocket
                             if (gameHandler.startGame())
                             {
                             broadcastHandler.sendResponseToAll(new GameResponse(ResponseTypes.GAME_STARTED, new Game()));
+                            broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
                             }
                             break;
                         case Commands.GET_UPDATE:
