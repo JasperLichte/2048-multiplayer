@@ -45,6 +45,8 @@ export default class Connection {
         return MessageHandler.unregistered(data);
       case RequestTypes.GAME_ENDED:
         return MessageHandler.gameEnded(data);
+      case RequestTypes.GAME_CLOSED:
+        return MessageHandler.gameClosed(data);
       case RequestTypes.ERROR:
         return MessageHandler.error(data);
     }

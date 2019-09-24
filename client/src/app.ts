@@ -17,4 +17,9 @@ Globals.connection = new Connection();
     MessageHandler.send(RequestTypes.GAME_START);
     $('#spinner').classList.remove('hidden');
   });
+
+  window.addEventListener('beforeunload', () => {
+    MessageHandler.send(RequestTypes.UNREGISTER);
+  });
+
 })();

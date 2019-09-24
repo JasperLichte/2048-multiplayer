@@ -55,6 +55,11 @@ export default class MessageHandler {
     Globals.game.setRemainingTime(0);
   }
 
+  public static gameClosed(data: {}) {
+    MessageHandler.send(RequestTypes.UNREGISTER);
+    window.location.reload();
+  }
+
   public static error(data: {}) {}
 
   // outgoing
