@@ -1,6 +1,7 @@
 import config from '../config/config.js';
 import RequestTypes from './RequestTypes.js';
 import MessageHandler from './MessageHandler.js';
+import { $ } from '../helpers/DomHelper.js';
 
 export default class Connection {
 
@@ -22,6 +23,7 @@ export default class Connection {
   }
 
   private onConnect = () => {
+    $('#spinner').classList.add('hidden');
     this.socket.send(JSON.stringify({type: RequestTypes.REGISTER}));
   }
 
