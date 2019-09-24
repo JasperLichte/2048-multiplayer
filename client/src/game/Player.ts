@@ -58,7 +58,7 @@ export default class Player {
         RequestTypes.DO_PLAYER_UPDATE,
         {
           newScore: this.getScore(),
-          board: this.board.getTiles(),
+          board: {tiles: this.board.getTiles()}
         }
       );
     }
