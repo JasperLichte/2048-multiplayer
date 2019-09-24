@@ -35,16 +35,11 @@ namespace server
         {
             if (game.allowedToRegister())
             {
-                Console.WriteLine($"Game is open for registration...registering player");
-                Player player = new Player();
-                if (game.registerPlayer(player))
-                {
-                    return new RegisterResponse(player, game.id, config);
-                }
+                return registerPlayer();
             }
             if(game.status==Status.FINISHED){
                 this.game = new Game();
-                registerPlayer();
+                return registerPlayer();
             }
             return new ErrorResponse("Game is not open for registration!");
         }
@@ -75,7 +70,7 @@ namespace server
 
         public void stopGame(Object source, ElapsedEventArgs e)
         {
-            game.status = Status.FINISHED;
+            game.close();
             OnTimerElapsed(EventArgs.Empty);
             Console.WriteLine("Stopped Timer");
         }
