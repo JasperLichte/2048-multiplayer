@@ -14,6 +14,7 @@ namespace server.model
         public Player(){
             Random random = new System.Random();
             this.id = DateTime.Now.Ticks / (long)TimeSpan.TicksPerMillisecond;
+            this.Board = new Board();
         }
     }
 }
