@@ -79,18 +79,13 @@ export default class MessageHandler {
 
   // outgoing
   public static send(type: string, data: {} = {}) {
-    //console.log(`>>> ${type}`, data);
+    console.log(`>>> ${type}`, data);
     const socket: WebSocket = Connection.getInstance().getSocket();
     data['type'] = type;
     if (Globals.game) {
       data['playerID'] = Globals.game.getLocalPlayerId();
     }
     socket.send(JSON.stringify(data));
-    if (type== RequestTypes.DO_PLAYER_UPDATE) {
-      console.log('-----------');
-      console.log(data);
-      console.log('-----------');
-    }
   } 
 
   private static initRequestUpdateTimer() {
