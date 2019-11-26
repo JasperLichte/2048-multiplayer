@@ -124,6 +124,10 @@ namespace server
 
         internal void updatePlayer(long playerID, long newScore, Board board)
         {
+            if (this.game.status== Status.FINISHED)
+            {
+                return;
+            }
             Player player = game.players.Find(x =>
                  x.id == playerID
             );
