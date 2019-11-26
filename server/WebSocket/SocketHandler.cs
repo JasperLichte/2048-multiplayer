@@ -54,7 +54,7 @@ namespace server.websocket
                             gameHandler.registerPlayerName(command.playerID,command.name);
                             break;
                         case Commands.GAME_START:
-                            if (gameHandler.startGame())
+                            if (gameHandler.startGame(command.playerID))
                             {
                                 broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, new Game()));
                                 broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
@@ -69,6 +69,7 @@ namespace server.websocket
                             break;
                         case Commands.GET_PLAYER_BOARD:
                             //send board of playerid
+
                             break;
                         case Commands.UNREGISTER:
                             gameHandler.unregisterPlayer(command.playerID);

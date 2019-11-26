@@ -29,11 +29,11 @@ namespace server
             this.config = Config.loadConfig();
             this.timer=new Timer(config.roundDuration);
         }
-        public static GameHandler getHandler()
+        internal static GameHandler getHandler()
         {
             return gameHandler;
         }
-        public IResponse registerNewPlayer()
+        internal IResponse registerNewPlayer()
         {
             if (game.allowedToRegister())
             {
@@ -57,7 +57,7 @@ namespace server
             }
             return new ErrorResponse("Player already registered");
         }
-        public IResponse getUpdate()
+        internal IResponse getUpdate()
         {
             if (config.roundDuration - (long)(DateTime.Now - startTime).TotalMilliseconds < 0)
             {
@@ -77,8 +77,16 @@ namespace server
             player.name = name;
         }
 
-        public Boolean startGame()
+        internal Boolean startGame(long playerID)
         {
+
+             Player player = game.players.Find(x =>
+                 x.id == playerID
+            );
+            if (!player.isAdmin)
+            {
+                return false;
+            }
             game.status = Status.RUNNING;
             timer = new Timer(config.roundDuration);
             timer.Elapsed += stopGame;
@@ -89,7 +97,7 @@ namespace server
             return true;
         }
 
-        public void stopGame(Object source, ElapsedEventArgs e)
+        internal void stopGame(Object source, ElapsedEventArgs e)
         {
             game.close();
             OnTimerElapsed(EventArgs.Empty);
@@ -121,6 +129,11 @@ namespace server
             );
             player.score = newScore;
             player.Board = board;
+        }
+        internal IResponse getPlayerBoard(long playerID){
+            
+
+            return null;
         }
     }
 }
