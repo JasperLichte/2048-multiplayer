@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -8,6 +9,7 @@ namespace server.model
         public int maxUsers {get;set;}
         public int boardSize{get;set;}
         public long roundDuration{get;set;}
+        public String connectionString {get;set;}
 
 
 private Config(){
