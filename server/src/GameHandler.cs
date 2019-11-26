@@ -132,7 +132,7 @@ namespace server
                  x.id == playerID
             );
             player.score = newScore;
-            player.Board = board;
+            player.board = board;
         }
         internal IResponse getPlayerBoard(long playerID){
             
