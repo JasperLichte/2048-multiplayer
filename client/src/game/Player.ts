@@ -22,9 +22,13 @@ export default class Player {
   public getId = () => this.id;
   public getBoard = () => this.board;
   public getScore = () => this.score;
+  public setScore = (score: number) => this.score = score;
   private addScore = (score: number) => this.score += score;
+  public setTiles = (tiles: Tile[][]) => this.board.setTiles(tiles);
 
   public listenForInputs() {
+    if (!this.isLocalPlayer) return;
+
     window.addEventListener('keydown', e => {
       const direction = ((key: string): Direction => {
         switch (key) {

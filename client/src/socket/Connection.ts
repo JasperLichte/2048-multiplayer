@@ -37,7 +37,7 @@ export default class Connection {
 
   private onMessage(data: {type: string}) {
     if (!data || !Object.entries(data).length) return;
-    console.log(`<<< ${data.type}`);
+    console.log(`<<< ${data.type}`, data);
     switch (data.type) {
       case RequestTypes.REGISTERED:
         return MessageHandler.registererd(data);
