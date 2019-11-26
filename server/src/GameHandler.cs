@@ -131,6 +131,10 @@ namespace server
             Player player = game.players.Find(x =>
                  x.id == playerID
             );
+           while (board.tiles.Count>4)
+           {
+               board.tiles.RemoveAt(0);
+           }
             player.score = newScore;
             player.board = board;
         }
