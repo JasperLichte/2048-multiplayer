@@ -9,12 +9,15 @@ namespace server.model
         public long id { get; set; }
         public Status status { get; set; }
         public List<Player> players { get; set; }
+        public DateTime StartDatum { get; set; }
+        public DateTime EndDatum { get; set; }
 
         public Game(){
             Random random = new Random();
             this.id = random.Next();
             this.players = new List<Player>();
             this.status= Status.CREATED;
+            this.StartDatum = DateTime.Now;
         }
 
         public bool allowedToRegister()
@@ -44,7 +47,7 @@ namespace server.model
         internal void close()
         {
             this.status=Status.FINISHED;
-            
+            this.EndDatum=DateTime.Now;
         }
     }
 }
