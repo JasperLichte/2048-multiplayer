@@ -11,10 +11,10 @@ namespace server.model
         public String name{get;set;}
         public Boolean isAdmin{get;set;}=false;
 
-        public Player(){
+        internal Player(Config config){
             Random random = new System.Random();
             this.id = DateTime.Now.Ticks / (long)TimeSpan.TicksPerMillisecond;
-            this.board = new Board();
+            this.board = new Board().fill(config);
         }
     }
 }

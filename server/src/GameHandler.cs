@@ -50,7 +50,7 @@ namespace server
         private IResponse registerPlayer()
         {
             Console.WriteLine($"Game is open for registration...registering player");
-            Player player = new Player();
+            Player player = new Player(config);
             if (game.registerPlayer(player))
             {
                 return new RegisterResponse(player, game.id, config);
@@ -131,10 +131,6 @@ namespace server
             Player player = game.players.Find(x =>
                  x.id == playerID
             );
-           while (board.tiles.Count>4)
-           {
-               board.tiles.RemoveAt(0);
-           }
             player.score = newScore;
             player.board = board;
         }
