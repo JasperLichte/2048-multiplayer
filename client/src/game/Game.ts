@@ -4,6 +4,8 @@ import Board from "./Board.js";
 import { $ } from "../helpers/DomHelper.js";
 import HtmlHelper from "../helpers/HtmlHelper.js";
 import Tile from "./Tile.js";
+import MessageHandler from "../socket/MessageHandler.js";
+import RequestTypes from "../socket/RequestTypes.js";
 
 export default class Game {
 
@@ -69,8 +71,15 @@ export default class Game {
     const board: Board = localPlayer.getBoard();
     board.randomlyInsertNewTile();
     board.randomlyInsertNewTile();
-    board.render($('#game'));
+    board.render($('#local-player-board-wrapper'));
     localPlayer.listenForInputs();
+    MessageHandler.send(
+      RequestTypes.DO_PLAYER_UPDATE,
+      {
+        newScore: localPlayer.getScore(),
+        board: {tiles: localPlayer.getBoard().getTiles()}
+      }
+    );
   }
 
   public update() {
@@ -100,7 +109,6 @@ export default class Game {
     }
   }
 
-
   private $createPlayerBoard(player: Player) {
     const $board = document.createElement('div');
 
@@ -109,6 +117,7 @@ export default class Game {
 
     const $score = document.createElement('h2');
     $score.innerText = player.getScore().toString();
+    $score.setAttribute('class', 'score');
     $board.appendChild($score);
 
     const $tiles = document.createElement('div');
@@ -130,15 +139,17 @@ export default class Game {
 
     $board.appendChild($tiles);
 
-    $('#game').appendChild($board);
+    $('#remote-player-board-wrapper').appendChild($board);
   }
 
   private $updatePlayerBoard(player: Player) {
-    const $board = $(`#game #board-${player.getId()} .board`);
+    let $board = $(`#board-${player.getId()}`);
 
     $board.querySelector('.score').innerHTML = player.getScore().toString();
 
-    for(let y = 0; y <= player.getBoard().getTiles().length; y++) {
+    $board = $board.querySelector('.board');
+
+    for (let y = 0; y < player.getBoard().getTiles().length; y++) {
       const row = player.getBoard().getTiles()[y];
       const $row = $board.querySelector(`.row:nth-of-type(${y + 1})`);
       for (let x = 0; x < row.length; x++) {
@@ -148,7 +159,6 @@ export default class Game {
         $cell.setAttribute('data-value', `v_${cell.getValue()}`);
       }
     }
-
   }
 
 }
