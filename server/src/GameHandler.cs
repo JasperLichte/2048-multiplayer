@@ -30,7 +30,7 @@ namespace server
         {
             this.config = Config.loadConfig();
             this.timer = new Timer(config.roundDuration);
-            this.dataStorage = new MySQLHandler();
+            this.dataStorage = new DBQueryDummy();
             Game lastgame=dataStorage.loadLastGameData();
             this.game = new Game(lastgame==null?1:lastgame.id+1);
         }
