@@ -12,12 +12,19 @@ namespace server.model
         public DateTime StartDatum { get; set; }
         public DateTime EndDatum { get; set; }
 
-        public Game(){
+        public Game(long gameID){
             Random random = new Random();
-            this.id = random.Next();
+            this.id = gameID;
             this.players = new List<Player>();
             this.status= Status.CREATED;
             this.StartDatum = DateTime.Now;
+        }
+
+        public Game(int id, DateTime StartDatum, DateTime EndDatum)
+        {
+            this.id = id;
+            this.StartDatum = StartDatum;
+            this.EndDatum = EndDatum;
         }
 
         public bool allowedToRegister()

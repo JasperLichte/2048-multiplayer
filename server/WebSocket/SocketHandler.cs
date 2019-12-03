@@ -56,7 +56,7 @@ namespace server.websocket
                         case Commands.GAME_START:
                             if (gameHandler.startGame(command.playerID))
                             {
-                                broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, new Game()));
+                                broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, gameHandler.game));
                                 broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
                             }
                             break;

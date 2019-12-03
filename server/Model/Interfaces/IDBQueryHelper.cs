@@ -4,7 +4,8 @@ namespace server.model.interfaces
 {
     public interface IDBQueryHelper
     {
-         void storageData();
-         void loadData();
+         void storeData(Game gameData);
+         Game loadLastGameData();
+         Player loadLastPlayerData();
     }
 }

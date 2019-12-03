@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 using server.model;
 using server.model.enums;
@@ -9,11 +10,13 @@ namespace server
 {
     class GameHandler
     {
-        private Game game;
+        public Game game;
         //https://stackoverflow.com/questions/2278525/system-timers-timer-how-to-get-the-time-remaining-until-elapse
         private Timer timer;
         private DateTime startTime;
         private Config config;
+
+        private IDBQueryHelper dataStorage;
 
         private static GameHandler gameHandler = new GameHandler();
         public event EventHandler TimerElapsed;
@@ -25,9 +28,11 @@ namespace server
 
         private GameHandler()
         {
-            this.game = new Game();
             this.config = Config.loadConfig();
-            this.timer=new Timer(config.roundDuration);
+            this.timer = new Timer(config.roundDuration);
+            this.dataStorage = new MySQLHandler();
+            Game lastgame=dataStorage.loadLastGameData();
+            this.game = new Game(lastgame==null?1:lastgame.id+1);
         }
         internal static GameHandler getHandler()
         {
@@ -41,7 +46,7 @@ namespace server
             }
             if (game.status == Status.FINISHED)
             {
-                this.game = new Game();
+                this.game = new Game(this.game.id+1);
                 return registerPlayer();
             }
             return new ErrorResponse("Game is not open for registration!");
@@ -50,7 +55,8 @@ namespace server
         private IResponse registerPlayer()
         {
             Console.WriteLine($"Game is open for registration...registering player");
-            Player player = new Player();
+            Player lastPlayer = dataStorage.loadLastPlayerData();
+            Player player = new Player(lastPlayer.id+1);
             if (game.registerPlayer(player))
             {
                 return new RegisterResponse(player, game.id, config);
@@ -80,9 +86,9 @@ namespace server
         internal Boolean startGame(long playerID)
         {
 
-             Player player = game.players.Find(x =>
-                 x.id == playerID
-            );
+            Player player = game.players.Find(x =>
+                x.id == playerID
+           );
             if (!player.isAdmin)
             {
                 return false;
@@ -100,6 +106,10 @@ namespace server
         internal void stopGame(Object source, ElapsedEventArgs e)
         {
             game.close();
+            Task.Run(() =>
+            {
+                this.dataStorage.storeData(this.game);
+            });
             OnTimerElapsed(EventArgs.Empty);
             Console.WriteLine("Stopped Timer");
         }
@@ -130,8 +140,9 @@ namespace server
             player.score = newScore;
             player.Board = board;
         }
-        internal IResponse getPlayerBoard(long playerID){
-            
+        internal IResponse getPlayerBoard(long playerID)
+        {
+
 
             return null;
         }

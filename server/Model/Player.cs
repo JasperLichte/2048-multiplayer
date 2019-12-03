@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace server.model
 {
@@ -11,10 +10,16 @@ namespace server.model
         public String name{get;set;}
         public Boolean isAdmin{get;set;}=false;
 
-        public Player(){
-            Random random = new System.Random();
-            this.id = DateTime.Now.Ticks / (long)TimeSpan.TicksPerMillisecond;
+        public Player(long id){
+
+            this.id = id;
             this.Board = new Board();
         }
+        public Player(long playerID, string name)
+        {
+            this.id= playerID;
+            this.name = name;
+        }
+        
     }
 }
