@@ -8,7 +8,10 @@ namespace server.model
 
         internal Board()
         {
-            Config config = Config.loadConfig();
+        }
+
+        internal Board fill(Config config)
+        {
             tiles = new List<List<Tile>>();
 
             for (int i = 0; i < config.boardSize; i++)
@@ -20,6 +23,7 @@ namespace server.model
                 }
                 tiles.Add(a);
             }
+            return this;
         }
     }
 }

@@ -5,15 +5,15 @@ namespace server.model
     public class Player
     {
        public long id {get;set;}
-        public Board Board {get;set;}
+        public Board board {get;set;}
         public long score {get;set;}
         public String name{get;set;}
         public Boolean isAdmin{get;set;}=false;
 
-        public Player(long id){
+        internal Player(Config config, long id){
 
             this.id = id;
-            this.Board = new Board();
+            this.board = new Board().fill(config);
         }
         public Player(long playerID, string name)
         {

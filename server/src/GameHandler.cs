@@ -56,7 +56,7 @@ namespace server
         {
             Console.WriteLine($"Game is open for registration...registering player");
             Player lastPlayer = dataStorage.loadLastPlayerData();
-            Player player = new Player(lastPlayer.id+1);
+            Player player = new Player(config,lastPlayer.id+1);
             if (game.registerPlayer(player))
             {
                 return new RegisterResponse(player, game.id, config);
@@ -134,11 +134,15 @@ namespace server
 
         internal void updatePlayer(long playerID, long newScore, Board board)
         {
+            if (this.game.status== Status.FINISHED)
+            {
+                return;
+            }
             Player player = game.players.Find(x =>
                  x.id == playerID
             );
             player.score = newScore;
-            player.Board = board;
+            player.board = board;
         }
         internal IResponse getPlayerBoard(long playerID)
         {

@@ -6,6 +6,9 @@ import HtmlHelper from "../helpers/HtmlHelper.js";
 import RequestTypes from "./RequestTypes.js";
 import Status from "../game/Status.js";
 import Connection from "./Connection.js";
+import Player from "../game/Player.js";
+import Tile from "../game/Tile.js";
+import config from "../config/config.js";
 
 export default class MessageHandler {
 
@@ -41,6 +44,18 @@ export default class MessageHandler {
     // @ts-ignore
     const { players, gameStatus, remainingTime } = data;
     Globals.game.setPlayerIds(players.map(player => player.id));
+    Globals.game.setOtherPlayers(
+      players
+        .filter(p => p.id !== Globals.game.getLocalPlayerId())
+        .map(p => {
+          const player = new Player(p.id, p.id === Globals.game.getLocalPlayerId, p.isAdmin);
+          player.setScore(p.score);
+          player.setTiles(
+            p.board.tiles.map(r => r.map(c => new Tile(c.value)))
+          );
+          return player;
+        })
+    );
     Globals.game.setStatus(gameStatus);
     Globals.game.setRemainingTime(remainingTime);
 
@@ -65,7 +80,10 @@ export default class MessageHandler {
 
   // outgoing
   public static send(type: string, data: {} = {}) {
-    console.log(`>>> ${type}`);
+    if (config.DEBUG_OUTPUTS.OUT_SOCKET) {
+      console.log(`>>> ${type}`, data);
+    }
+
     const socket: WebSocket = Connection.getInstance().getSocket();
     data['type'] = type;
     if (Globals.game) {

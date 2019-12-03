@@ -3,4 +3,24 @@
   min-height: 100vh;
   position: absolute;
   z-index: 1;
+
+  & #player-boards-wrapper {
+    height: calc(100% - 2rem);
+    margin-top: 2rem;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    & > #local-player-board-wrapper {
+      background-color: rgb(226, 185, 19);
+    }
+
+    & > #local-player-board-wrapper,
+    & > #remote-player-board-wrapper {
+      width: 50%;
+      min-width: 400px;
+      padding: .5rem;
+    }
+  }
 }

@@ -3,6 +3,8 @@ import Tile from "./Tile.js";
 import Direction from "./Direction.js";
 import MessageHandler from "../socket/MessageHandler.js";
 import RequestTypes from "../socket/RequestTypes.js";
+import Globals from "../Globals.js";
+import Status from "./Status.js";
 
 export default class Player {
 
@@ -22,10 +24,18 @@ export default class Player {
   public getId = () => this.id;
   public getBoard = () => this.board;
   public getScore = () => this.score;
+  public setScore = (score: number) => this.score = score;
   private addScore = (score: number) => this.score += score;
+  public setTiles = (tiles: Tile[][]) => this.board.setTiles(tiles);
 
   public listenForInputs() {
+    if (!this.isLocalPlayer) return;
+
     window.addEventListener('keydown', e => {
+      if (Globals.game.getStatus() !== Status.RUNNING) {
+        return;
+      }
+      
       const direction = ((key: string): Direction => {
         switch (key) {
           case 'ArrowUp': return Direction.Up;
