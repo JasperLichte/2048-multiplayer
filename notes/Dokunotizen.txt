@@ -1,0 +1,10 @@
+Doku:
+Titelblatt
+	Kurze Beschreibung des SPiels(Regelwerk ect)
+	Voraussetzungen(netzwerkarchitektur und grafisch darstellen,Browser ect pp)
+	Architektur des Spiels (Design Pattern(MVC) )Klassendiagramm(Generelle Struktur, nicht alle Getter/Setter/ Methoden)
+	Use Case Diagramm
+	Sequenzdiagramm exemplarisch nicht für alles(für sinnvolle sachen)
+	Testkonzept+test dokumentieren(wie haben wir es getestet,Ergebnisse dokumentiernen)
+Fazit
+
