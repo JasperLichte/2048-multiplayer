@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using server.model;
@@ -21,6 +22,7 @@ namespace server.websocket
         BroadcastHandler broadcastHandler = BroadcastHandler.getBroadcastHandler();
         CancellationTokenSource source;
         CancellationToken ct;
+        private static readonly ILog log = LogManager.GetLogger(typeof(SocketHandler));
         internal async Task socketHandle(HttpContext context, WebSocket websocket)
         {
             this.webSocket = websocket;
@@ -35,7 +37,8 @@ namespace server.websocket
                     break;
                 }
                 var command = await ReceiveJSOnAsync(this.webSocket, ct);
-                Console.WriteLine(JsonConvert.SerializeObject(command));
+                log.Error(JsonConvert.SerializeObject(command));
+                //Console.WriteLine(JsonConvert.SerializeObject(command));
                 if (this.webSocket.State.ToString() == "Open")
                 {
                     switch (command.type)
