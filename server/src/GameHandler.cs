@@ -31,8 +31,8 @@ namespace server
             this.config = Config.loadConfig();
             this.timer = new Timer(config.roundDuration);
             this.dataStorage = new DBQueryDummy();
-            Game lastgame=dataStorage.loadLastGameData();
-            this.game = new Game(lastgame==null?1:lastgame.id+1);
+            Game lastgame = dataStorage.loadLastGameData();
+            this.game = new Game(lastgame == null ? 1 : lastgame.id + 1);
         }
         internal static GameHandler getHandler()
         {
@@ -46,7 +46,7 @@ namespace server
             }
             if (game.status == Status.FINISHED)
             {
-                this.game = new Game(this.game.id+1);
+                this.game = new Game(this.game.id + 1);
                 return registerPlayer();
             }
             return new ErrorResponse("Game is not open for registration!");
@@ -55,8 +55,17 @@ namespace server
         private IResponse registerPlayer()
         {
             Console.WriteLine($"Game is open for registration...registering player");
-            Player lastPlayer = dataStorage.loadLastPlayerData();
-            Player player = new Player(config,lastPlayer.id+1);
+            long playerID = 0;
+            if (game.lastPlayerID == 0)
+            {
+                Player lastPlayer = dataStorage.loadLastPlayerData();
+                playerID = lastPlayer.id + 1;
+            }
+            else
+            {
+                playerID = game.lastPlayerID + 1;
+            }
+            Player player = new Player(config, playerID);
             if (game.registerPlayer(player))
             {
                 return new RegisterResponse(player, game.id, config);
@@ -134,7 +143,7 @@ namespace server
 
         internal void updatePlayer(long playerID, long newScore, Board board)
         {
-            if (this.game.status== Status.FINISHED)
+            if (this.game.status == Status.FINISHED)
             {
                 return;
             }

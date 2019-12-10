@@ -7,6 +7,7 @@ namespace server.model
     public class Game
     {
         public long id { get; set; }
+        public long lastPlayerID {get;set;}=0;
         public Status status { get; set; }
         public List<Player> players { get; set; }
         public DateTime StartDatum { get; set; }
@@ -48,6 +49,7 @@ namespace server.model
               player.isAdmin=true;  
             }
             Console.WriteLine($"Player with id {player.id} registered!");
+            lastPlayerID=player.id;
             return true;
         }
 
