@@ -47,8 +47,6 @@ export default class Connection {
         return MessageHandler.gameStarted(data);
       case RequestTypes.UPDATE:
         return MessageHandler.update(data);
-      case RequestTypes.PLAYER_BOARD:
-        return MessageHandler.playerBoard(data);
       case RequestTypes.UNREGISTERED:
         return MessageHandler.unregistered(data);
       case RequestTypes.GAME_ENDED:

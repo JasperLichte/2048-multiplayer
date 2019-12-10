@@ -11,8 +11,9 @@ export default class Player {
   private id: number;
   private board: Board;
   private score: number = 0;
-  private isLocalPlayer: boolean = false;
+  public isLocalPlayer: boolean = false;
   private isAdmin: boolean = false;
+  private name: string = '';
 
   constructor(id: number, isLocalPlayer: boolean, isAdmin: boolean) {
     this.id = id;
@@ -27,6 +28,8 @@ export default class Player {
   public setScore = (score: number) => this.score = score;
   private addScore = (score: number) => this.score += score;
   public setTiles = (tiles: Tile[][]) => this.board.setTiles(tiles);
+  public getName = () => this.name;
+  public setName = (name: string) => this.name = name;
 
   public listenForInputs() {
     if (!this.isLocalPlayer) return;

@@ -1,7 +1,7 @@
 export default class HtmlHelper {
 
   private static element(type: string) {
-    return function(content: string|HTMLElement = null, attribs: {} = {}) {
+    return function(content: string|HTMLElement|HTMLElement[] = null, attribs: {} = {}) {
       return function(target: HTMLElement = null): HTMLElement {
         const element = document.createElement(type);
 
@@ -12,6 +12,8 @@ export default class HtmlHelper {
         if (content) {
           if (typeof content === 'string') {
             element.innerText = content;
+          } else if (Array.isArray(content)) {
+            content.forEach(c => element.appendChild(c));
           } else {
             element.appendChild(content);
           }
@@ -27,7 +29,7 @@ export default class HtmlHelper {
   }
 
   public static div(
-    content: string|HTMLElement = null,
+    content: string|HTMLElement|HTMLElement[] = null,
     attribs: {} = {},
     target: HTMLElement = null
   ): HTMLElement {
@@ -35,7 +37,7 @@ export default class HtmlHelper {
   }
 
   public static span(
-    content: string|HTMLElement = null,
+    content: string|HTMLElement|HTMLElement[] = null,
     attribs: {} = {},
     target: HTMLElement = null
   ): HTMLElement {
@@ -43,7 +45,7 @@ export default class HtmlHelper {
   }
 
   public static h1(
-    content: string|HTMLElement = null,
+    content: string|HTMLElement|HTMLElement[] = null,
     attribs: {} = {},
     target: HTMLElement = null
   ): HTMLElement {
@@ -51,7 +53,7 @@ export default class HtmlHelper {
   }
 
   public static h2(
-    content: string|HTMLElement = null,
+    content: string|HTMLElement|HTMLElement[] = null,
     attribs: {} = {},
     target: HTMLElement = null
   ): HTMLElement {
@@ -59,11 +61,43 @@ export default class HtmlHelper {
   }
 
   public static p(
-    content: string|HTMLElement = null,
+    content: string|HTMLElement|HTMLElement[] = null,
     attribs: {} = {},
     target: HTMLElement = null
   ): HTMLElement {
     return HtmlHelper.element('p')(content, attribs)(target);
+  }
+
+  public static table(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('table')(content, attribs)(target);
+  }
+
+  public static tr(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('tr')(content, attribs)(target);
+  }
+
+  public static td(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('td')(content, attribs)(target);
+  }
+
+  public static th(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('th')(content, attribs)(target);
   }
 
 }

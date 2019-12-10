@@ -42,12 +42,12 @@ export default class Game {
   }
 
   public getStatus = () => this.status;
-
   public setStatus = (status: Status) => this.status = status;
-
   public setRemainingTime = (remainingTime: number) => this.remainingTime = remainingTime;
-
   public getLocalPlayerId = () => this.localPlayerId;
+  public getPlayers = () => this.players;
+  public setOtherPlayers = (players: Player[]) => this.otherPlayers = players;
+  public getOtherPlayers = () => this.otherPlayers;
 
   public getLocalPlayer(): Player {
     for(const player of this.players) {
@@ -58,10 +58,6 @@ export default class Game {
     
     return null;
   }
-
-  public setOtherPlayers = (players: Player[]) => this.otherPlayers = players;
-
-  public getOtherPlayers = () => this.otherPlayers;
 
   public start(): void {
     this.setStatus(Status.RUNNING);
@@ -159,6 +155,28 @@ export default class Game {
         $cell.setAttribute('data-value', `v_${cell.getValue()}`);
       }
     }
+  }
+
+  public $renderScoreboard() {
+    const $rows: HTMLElement[] = [HtmlHelper.tr([
+      HtmlHelper.th('Platz'),
+      HtmlHelper.th('Name'),
+      HtmlHelper.th('Score'),
+    ])];
+
+    this.players
+    .sort((a, b) => b.getScore() - a.getScore())
+    .forEach((p, i) => $rows.push(HtmlHelper.tr([
+      HtmlHelper.td((i + 1).toString()),
+      HtmlHelper.td(p.getName()),
+      HtmlHelper.td(p.getScore().toString()),
+    ])));
+
+    HtmlHelper.div(
+      HtmlHelper.div(HtmlHelper.table($rows), {class: 'dialog'}),
+      {id: 'score-board-wrapper'},
+      $('#game')
+    );
   }
 
 }

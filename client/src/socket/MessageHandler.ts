@@ -44,31 +44,42 @@ export default class MessageHandler {
     // @ts-ignore
     const { players, gameStatus, remainingTime } = data;
     Globals.game.setPlayerIds(players.map(player => player.id));
-    Globals.game.setOtherPlayers(
-      players
-        .filter(p => p.id !== Globals.game.getLocalPlayerId())
-        .map(p => {
-          const player = new Player(p.id, p.id === Globals.game.getLocalPlayerId, p.isAdmin);
-          player.setScore(p.score);
-          player.setTiles(
-            p.board.tiles.map(r => r.map(c => new Tile(c.value)))
-          );
-          return player;
-        })
-    );
+    Globals.game.setOtherPlayers(players
+    .filter(p => p.id !== Globals.game.getLocalPlayerId())
+    .map(p => {
+      const player = new Player(p.id, p.id === Globals.game.getLocalPlayerId, p.isAdmin);
+      player.setScore(p.score);
+      player.setTiles(
+        p.board.tiles.map(r => r.map(c => new Tile(c.value)))
+      );
+      return player;
+    }));
+
+    Globals.game.getOtherPlayers().forEach(player => player.setScore(
+      players.find(p => p.id === player.getId()).score
+    ));
+
+    Globals.game.getPlayers().forEach(player => {
+      const p = players.find(p => p.id === player.getId());
+      player.setName(p.name);
+      if (!player.isLocalPlayer) {
+        player.setScore(p.score);
+      }
+    });
+
     Globals.game.setStatus(gameStatus);
     Globals.game.setRemainingTime(remainingTime);
 
     Globals.game.update();
   }
 
-  public static playerBoard(data: {}) {}
-
   public static unregistered(data: {}) {}
 
   public static gameEnded(data: {}) {
     Globals.game.setStatus(Status.FINISHED);
     Globals.game.setRemainingTime(0);
+    Globals.game.$renderScoreboard();
+
     MessageHandler.send(RequestTypes.GET_UPDATE);
   }
 
