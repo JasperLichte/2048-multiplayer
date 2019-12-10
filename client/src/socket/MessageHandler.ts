@@ -69,6 +69,7 @@ export default class MessageHandler {
   public static gameEnded(data: {}) {
     Globals.game.setStatus(Status.FINISHED);
     Globals.game.setRemainingTime(0);
+    MessageHandler.send(RequestTypes.GET_UPDATE);
   }
 
   public static gameClosed(data: {}) {
