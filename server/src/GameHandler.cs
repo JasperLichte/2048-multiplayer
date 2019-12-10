@@ -128,6 +128,12 @@ namespace server
             Player player = game.players.Find(x =>
                  x.id == playerID
             );
+
+            if (player==null)
+            {
+                Console.WriteLine($"No player with ID {playerID} found");
+                return;
+            }
             Console.WriteLine($"Removing player {player.id} from the game");
             if (player.isAdmin)
             {
@@ -136,7 +142,6 @@ namespace server
                 broadcastHandler.sendResponseToAll(new GameClosedResponse());
                 game.close();
                 timer.Stop();
-                return;
             }
             game.players.Remove(player);
         }
