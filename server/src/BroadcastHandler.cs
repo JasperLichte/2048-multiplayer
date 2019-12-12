@@ -13,8 +13,8 @@ namespace server
 {
     class BroadcastHandler
     {
-        public List<WebSocket> websockets;
-        public static BroadcastHandler broadcastHandler = new BroadcastHandler();
+        private List<WebSocket> websockets;
+        private static BroadcastHandler broadcastHandler = new BroadcastHandler();
         CancellationTokenSource source = new CancellationTokenSource();
         CancellationToken ct;
         GameHandler gameHandler;
