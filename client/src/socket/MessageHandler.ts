@@ -99,7 +99,19 @@ export default class MessageHandler {
     window.location.reload();
   }
 
-  public static error(data: {}) {}
+  public static error(data: {}) {
+    // @ts-ignore
+    const { message } = data;
+
+    Globals.game.setStatus(Status.FINISHED);
+    try {
+      const $errorCard = $('#error-card');
+      $errorCard.innerText = message;
+      $errorCard.classList.add('visible');
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   // outgoing
   public static send(type: string, data: {} = {}) {

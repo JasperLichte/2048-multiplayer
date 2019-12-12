@@ -50,11 +50,14 @@
       }
       &[data-nr-of-players=v_2] {
         & .board .tile {
-          width: 50px;
-          height: 50px;
+          width: 60px;
+          height: 60px;
         }
       }
-      &[data-nr-of-players=v_3], &[data-nr-of-players=v_4] {
+      &[data-nr-of-players=v_3],
+      &[data-nr-of-players=v_4],
+      &[data-nr-of-players=v_5],
+      &[data-nr-of-players=v_6] {
         & .board .tile {
           width: 40px;
           height: 40px;
