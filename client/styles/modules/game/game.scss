@@ -1,26 +1,65 @@
 #game {
+  background-color: #444;
   width: 100vw;
-  min-height: 100vh;
-  position: absolute;
+  height: 100vh;
+  position: fixed;
   z-index: 1;
+
+  & #remaining-time {
+    float: right;
+    color: rgb(226, 185, 19);
+    padding: 4px 8px;
+    font-size: 1.5rem;
+  }
 
   & #player-boards-wrapper {
     height: calc(100% - 2rem);
     margin-top: 2rem;
-
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
 
+    & > #remote-player-board-wrapper,
     & > #local-player-board-wrapper {
-      background-color: rgb(226, 185, 19);
+      padding: 16px;
+      max-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    & > #local-player-board-wrapper,
+    & > #local-player-board-wrapper {
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+
     & > #remote-player-board-wrapper {
-      width: 50%;
-      min-width: 400px;
-      padding: .5rem;
+      flex-grow: 1;
+      flex-wrap: wrap;
+
+      & .board-wrapper {
+        & .score {
+          color: #ddd;
+        }
+      }
+
+      &[data-nr-of-players=v_1] {
+        & .board .tile {
+          width: 80px;
+          height: 80px;
+        }
+      }
+      &[data-nr-of-players=v_2] {
+        & .board .tile {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      &[data-nr-of-players=v_3], &[data-nr-of-players=v_4] {
+        & .board .tile {
+          width: 40px;
+          height: 40px;
+        }
+      }
     }
   }
 }

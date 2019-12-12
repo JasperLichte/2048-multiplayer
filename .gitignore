@@ -3,6 +3,7 @@
 client/node_modules
 client/npm-debug.log
 client/build
+client/src/config/config.ts
 client/assets/scripts/bundle.js
 client/assets/styles/bundle.css
 client/assets/styles/bundle.css.map

@@ -35,7 +35,7 @@ export default class Board {
       '',
       {
         'id': `board-${this.id}`,
-        'class': (this.isLocalPlayer ? 'local' : '')
+        'class': 'board-wrapper' + (this.isLocalPlayer ? ' local' : '')
       }
     );
     const $score = HtmlHelper.h2('0', {'class': 'score'});

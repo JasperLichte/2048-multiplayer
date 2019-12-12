@@ -67,7 +67,7 @@ export default class Game {
     const board: Board = localPlayer.getBoard();
     board.randomlyInsertNewTile();
     board.randomlyInsertNewTile();
-    board.render($('#local-player-board-wrapper'));
+    board.render($('#local-board'));
     localPlayer.listenForInputs();
     MessageHandler.send(
       RequestTypes.DO_PLAYER_UPDATE,
@@ -97,6 +97,11 @@ export default class Game {
   public end(): void {}
 
   private renderOtherPlayerBoards(): void {
+    $('#remote-player-board-wrapper').setAttribute(
+      'data-nr-of-players',
+      `v_${this.getOtherPlayers().length.toString()}`
+    );
+    
     for (const player of this.getOtherPlayers()) {
       if (!$(`#game #board-${player.getId()}`)) {
         this.$createPlayerBoard(player);
@@ -108,7 +113,7 @@ export default class Game {
   private $createPlayerBoard(player: Player) {
     const $board = HtmlHelper.div(null, {
       id:  `board-${player.getId()}`,
-      class: 'remote',
+      class: 'remote board-wrapper',
     });
 
     HtmlHelper.h2(
