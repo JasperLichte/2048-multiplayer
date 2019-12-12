@@ -160,5 +160,9 @@ namespace server
             player.score = newScore;
             player.board = board;
         }
+
+        internal IResponse getAllPlayers(){
+            return new NewPlayerResponse(this.game.players);
+        }
     }
 }

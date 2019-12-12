@@ -26,7 +26,6 @@ namespace server.websocket
         internal async Task socketHandle(HttpContext context, WebSocket websocket)
         {
             this.webSocket = websocket;
-            /* var callerIp = context.Connection.RemoteIpAddress; */
             source = new CancellationTokenSource();
             ct = source.Token;
             Config config = Config.loadConfig();
@@ -54,6 +53,8 @@ namespace server.websocket
                         case Commands.REGISTER_PLAYER:
                             gameHandler.registerPlayerName(command.playerID,command.name);
                             log.Debug("Registered Playername");
+                            broadcastHandler.sendResponseToAll(gameHandler.getAllPlayers());
+                            log.Debug("Send Player registered Response to everyone");
                             break;
                         case Commands.GAME_START:
                             if (gameHandler.startGame(command.playerID))
