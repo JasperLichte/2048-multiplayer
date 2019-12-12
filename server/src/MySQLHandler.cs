@@ -25,27 +25,27 @@ namespace server
             {
                 conn.Open();
                 MySqlCommand cmd = new MySqlCommand("select * from game order by GameID DESC LIMIT 1", conn);
-              // Try catch for add an test entry for the database to get the next id 
-               try
-               {
-                   using (var reader = cmd.ExecuteReader())
+                // Try catch for the case there are no entries in the DB 
+                try
                 {
-                    while (reader.Read())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine(reader.GetInt32(0));
-                        //an entry in the list with the parameters of a Game() 
-                        list.Add(new Game(reader.GetInt32(0), reader.GetDateTime(1), reader.GetDateTime(2)));
+                        while (reader.Read())
+                        {
+                            log.Debug(reader.GetInt32(0));
+                            //add an entry to the list with the parameters of a Game() 
+                            list.Add(new Game(reader.GetInt32(0), reader.GetDateTime(1), reader.GetDateTime(2)));
+                        }
                     }
                 }
-               }
-               catch (System.Exception)
-               {
-                   
-                   list.Add(new Game(0,DateTime.Now, DateTime.Now));
-               }
-                
+                catch (System.Exception)
+                {
+
+                    list.Add(new Game(0, DateTime.Now, DateTime.Now));
+                }
+
             }
-            Console.WriteLine(JsonConvert.SerializeObject(list));
+            log.Debug(JsonConvert.SerializeObject(list));
             if (list.Count == 0)
             {
                 return null;
@@ -63,23 +63,23 @@ namespace server
                 // Try catch for add an test entry for the database to get the next id 
                 try
                 {
-                 using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine(reader.GetInt32(0));
-                        list.Add(new Player(reader.GetInt32(0), reader.GetString(1)));
+                        while (reader.Read())
+                        {
+                            log.Debug(reader.GetInt32(0));
+                            list.Add(new Player(reader.GetInt32(0), reader.GetString(1)));
+                        }
                     }
-                }   
                 }
                 catch (MySqlException)
                 {
                     list.Add(new Player(0, "Hallo"));
-                    
+
                 }
-                
+
             }
-            Console.WriteLine(JsonConvert.SerializeObject(list));
+            log.Debug(JsonConvert.SerializeObject(list));
             if (list.Count == 0)
             {
                 return null;
@@ -108,9 +108,6 @@ namespace server
         }
         private void insertGameData(long gameID, DateTime startDatum, DateTime endDatum, MySqlConnection connection)
         {
-            /*MySqlCommand insertGameData = new MySqlCommand("Insert into game (GameID, StartDatum, EndDatum)"
-                                    +"Values(" + gameID + "," + startDatum + "," + endDatum + ")", connection);
-            Console.WriteLine(insertGameData.CommandType);*/
             MySqlCommand insertGameData = connection.CreateCommand();
             //insert the current game with details as entry for  the database
             insertGameData.CommandText = "Insert into game (GameID, StartDatum, EndDatum)"

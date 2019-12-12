@@ -56,7 +56,7 @@ namespace server
 
         private IResponse registerPlayer()
         {
-           // Console.WriteLine($"Game is open for registration...registering player");
+           log.Info("Game is open for registration...registering player");
             long playerID = 0;
             if (game.lastPlayerID == 0)
             {
@@ -110,7 +110,7 @@ namespace server
             timer.AutoReset = false;
             timer.Start();
             startTime = DateTime.Now;
-            Console.WriteLine("Started Timer");
+            log.Debug("Started Timer");
             return true;
         }
 
@@ -122,7 +122,7 @@ namespace server
                 this.dataStorage.storeData(this.game);
             });
             OnTimerElapsed(EventArgs.Empty);
-            Console.WriteLine("Stopped Timer");
+            log.Debug("Stopped Timer");
         }
 
         internal void unregisterPlayer(long playerID)
@@ -133,13 +133,13 @@ namespace server
 
             if (player==null)
             {
-                Console.WriteLine($"No player with ID {playerID} found");
+                log.Info($"No player with ID {playerID} found");
                 return;
             }
-            Console.WriteLine($"Removing player {player.id} from the game");
+            log.Info($"Removing player {player.id} from the game");
             if (player.isAdmin)
             {
-                Console.WriteLine("Player is admin, removing all players");
+                log.Info("Player is admin, removing all players");
                 BroadcastHandler broadcastHandler = BroadcastHandler.getBroadcastHandler();
                 broadcastHandler.sendResponseToAll(new GameClosedResponse());
                 game.close();
@@ -159,12 +159,6 @@ namespace server
             );
             player.score = newScore;
             player.board = board;
-        }
-        internal IResponse getPlayerBoard(long playerID)
-        {
-
-
-            return null;
         }
     }
 }

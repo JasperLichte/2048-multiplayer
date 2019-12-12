@@ -37,8 +37,7 @@ namespace server.websocket
                     break;
                 }
                 var command = await ReceiveJSOnAsync(this.webSocket, ct);
-                log.Error(JsonConvert.SerializeObject(command));
-                //Console.WriteLine(JsonConvert.SerializeObject(command));
+                log.Debug(JsonConvert.SerializeObject(command));
                 if (this.webSocket.State.ToString() == "Open")
                 {
                     switch (command.type)
@@ -47,13 +46,14 @@ namespace server.websocket
                             break;
                         case Commands.REGISTER:
                             await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
-                           // Console.WriteLine("Send Game register response");
+                            log.Debug("Send Game register response");
                             broadcastHandler.addWebSocket(this.webSocket);
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
-                           // Console.WriteLine("Send Update response");
+                            log.Debug("Send Update response");
                             break;
                         case Commands.REGISTER_PLAYER:
                             gameHandler.registerPlayerName(command.playerID,command.name);
+                            log.Debug("Registered Playername");
                             break;
                         case Commands.GAME_START:
                             if (gameHandler.startGame(command.playerID))
@@ -61,13 +61,15 @@ namespace server.websocket
                                 broadcastHandler.sendResponseToAll(new GameStartedResponse(ResponseTypes.GAME_STARTED, gameHandler.game));
                                 broadcastHandler.sendResponseToAll(gameHandler.getUpdate());
                             }
+                            log.Debug("Game started");
                             break;
                         case Commands.GET_UPDATE:
-                            //nur scores vom spieler keine Felder
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
+                            log.Debug("Send Get_Update response");
                             break;
                         case Commands.DO_PLAYER_UPDATE:
                             gameHandler.updatePlayer(command.playerID, command.newScore, command.board);
+                            log.Debug("Player Update done");
                             break;
                         case Commands.GET_PLAYER_BOARD:
                             //send board of playerid
@@ -75,6 +77,7 @@ namespace server.websocket
                             break;
                         case Commands.UNREGISTER:
                             gameHandler.unregisterPlayer(command.playerID);
+                            log.Debug("Removed Player");
                             break;
                     }
                 }
@@ -106,14 +109,10 @@ namespace server.websocket
                 using (var reader = new StreamReader(ms, Encoding.UTF8))
                 {
                     String temp = await reader.ReadToEndAsync();
-                    //Deserialize JSON string to a 'Commands' object
+                    //Deserialize JSON string to a 'WebsocketRequest' object
                     return JsonConvert.DeserializeObject<WebSocketRequest>(temp);
                 }
             }
-        }
-        public void cancelCTSource()
-        {
-            this.source.Cancel();
         }
 
         private Task SendResponseJson(WebSocket webSocket, IResponse response, CancellationToken ct)

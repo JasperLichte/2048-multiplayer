@@ -52,7 +52,8 @@ namespace server
                 app.UseHsts();
 
             }
-
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             WebSocketOptions webSocketOptions = new WebSocketOptions()
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(60),

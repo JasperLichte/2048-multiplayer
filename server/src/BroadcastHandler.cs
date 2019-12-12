@@ -25,12 +25,12 @@ namespace server
             this.gameHandler = GameHandler.getHandler();
             ct = source.Token;
             gameHandler.TimerElapsed += timerElapsed;
-            Console.WriteLine("Registered to timeelapsed event");
+            log.Debug("Broadcasthandler registered to timeElapsed event");
         }
 
         private void timerElapsed(object sender, EventArgs e)
         {
-            Console.WriteLine("Called timeelapsed event");
+            log.Debug("Broadcasthandler called timeelapsed event");
             sendResponseToAll(new GameEndedResponse());
         }
 

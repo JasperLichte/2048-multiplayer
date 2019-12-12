@@ -42,7 +42,7 @@ namespace server.model
             public Boolean registerPlayer(Player player){
                 if (players.Find( x => x.id == player.id)!=null)
                 {
-                    Console.WriteLine($"Player with id {player.id} already registered");
+                    log.Info($"Player with id {player.id} already registered");
                     return false;
                 }
             players.Add(player);
@@ -50,7 +50,7 @@ namespace server.model
             {
               player.isAdmin=true;  
             }
-            Console.WriteLine($"Player with id {player.id} registered!");
+            log.Info($"Player registered with id {player.id}!");
             lastPlayerID=player.id;
             return true;
         }
