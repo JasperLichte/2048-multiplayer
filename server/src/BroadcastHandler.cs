@@ -4,6 +4,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using Newtonsoft.Json;
 using server.model.interfaces;
 using server.model.responses;
@@ -17,6 +18,7 @@ namespace server
         CancellationTokenSource source = new CancellationTokenSource();
         CancellationToken ct;
         GameHandler gameHandler;
+        private static readonly ILog log = LogManager.GetLogger(typeof(BroadcastHandler));
         private BroadcastHandler()
         {
             this.websockets = new List<WebSocket>();

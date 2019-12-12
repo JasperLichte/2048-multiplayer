@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using log4net;
 using server.model.enums;
 
 namespace server.model
@@ -12,7 +13,8 @@ namespace server.model
         public List<Player> players { get; set; }
         public DateTime StartDatum { get; set; }
         public DateTime EndDatum { get; set; }
-
+        private static readonly ILog log = LogManager.GetLogger(typeof(Game));
+        
         public Game(long gameID){
             Random random = new Random();
             this.id = gameID;

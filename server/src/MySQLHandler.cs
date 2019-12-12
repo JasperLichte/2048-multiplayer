@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using log4net;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using server.model;
@@ -11,6 +12,7 @@ namespace server
     {
         public String ConnectionString;
         private Config config;
+        private static readonly ILog log = LogManager.GetLogger(typeof(MySQLHandler));
         public MySQLHandler()
         {
             this.config = Config.loadConfig();

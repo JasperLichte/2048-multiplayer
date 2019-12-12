@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Timers;
+using log4net;
 using server.model;
 using server.model.enums;
 using server.model.interfaces;
@@ -20,6 +21,7 @@ namespace server
 
         private static GameHandler gameHandler = new GameHandler();
         public event EventHandler TimerElapsed;
+        private static readonly ILog log = LogManager.GetLogger(typeof(GameHandler));
         protected virtual void OnTimerElapsed(EventArgs e)
         {
             EventHandler handler = TimerElapsed;
@@ -54,7 +56,7 @@ namespace server
 
         private IResponse registerPlayer()
         {
-            Console.WriteLine($"Game is open for registration...registering player");
+           // Console.WriteLine($"Game is open for registration...registering player");
             long playerID = 0;
             if (game.lastPlayerID == 0)
             {

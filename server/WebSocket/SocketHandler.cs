@@ -47,10 +47,10 @@ namespace server.websocket
                             break;
                         case Commands.REGISTER:
                             await SendResponseJson(this.webSocket, gameHandler.registerNewPlayer(), ct);
-                            Console.WriteLine("Send Game register response");
+                           // Console.WriteLine("Send Game register response");
                             broadcastHandler.addWebSocket(this.webSocket);
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
-                            Console.WriteLine("Send Update response");
+                           // Console.WriteLine("Send Update response");
                             break;
                         case Commands.REGISTER_PLAYER:
                             gameHandler.registerPlayerName(command.playerID,command.name);
