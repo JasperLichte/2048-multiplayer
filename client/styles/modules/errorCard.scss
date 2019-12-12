@@ -1,0 +1,18 @@
+#error-card {
+  display: none;
+  position: fixed;
+  z-index: 101;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  background-color: rgba(20, 20, 20, .9);
+  font-size: 2rem;
+  color: #eee;
+  justify-content: center;
+  align-items: center;
+
+  &.visible {
+    display: flex;
+  }
+}
