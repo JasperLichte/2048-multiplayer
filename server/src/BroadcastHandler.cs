@@ -48,24 +48,30 @@ namespace server
         }
         public void sendResponseToAll(IResponse response)
         {
-            
+
             if (websockets.Count > 0)
             {
+
                 log.Debug($"Sending {response.GetType().ToString()} to {websockets.Count} websockets");
-                websockets.ForEach(websocket =>
+                lock (websockets)
                 {
-                    Task.Run(() =>
+                    websockets.ForEach(websocket =>
                     {
-                        string data = JsonConvert.SerializeObject(response);
-                        var buffer = Encoding.UTF8.GetBytes(data);
-                        var segment = new ArraySegment<byte>(buffer);
-                        websocket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
+                        Task.Run(() =>
+                        {
+                            string data = JsonConvert.SerializeObject(response);
+                            var buffer = Encoding.UTF8.GetBytes(data);
+                            var segment = new ArraySegment<byte>(buffer);
+                            websocket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
+                        });
                     });
-                });
+                }
             }
         }
-        public void removeAllWebsockets(){
-            websockets.ForEach(websocket=>{
+        public void removeAllWebsockets()
+        {
+            websockets.ForEach(websocket =>
+            {
                 websocket.Abort();
             });
             this.websockets = new List<WebSocket>();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Timers;
 using log4net;
@@ -57,7 +58,7 @@ namespace server
 
         private IResponse registerPlayer()
         {
-           log.Info("Game is open for registration...registering player");
+            log.Info("Game is open for registration...registering player");
             long playerID = 0;
             if (game.lastPlayerID == 0)
             {
@@ -105,6 +106,7 @@ namespace server
             {
                 return false;
             }
+            removeUnnamedPlayers();
             game.status = Status.RUNNING;
             timer = new Timer(config.roundDuration);
             timer.Elapsed += stopGame;
@@ -113,6 +115,20 @@ namespace server
             startTime = DateTime.Now;
             log.Debug("Started Timer");
             return true;
+        }
+        private void removeUnnamedPlayers(){
+            List<Player> playerToRemove = new List<Player>();
+            game.players.ForEach(gamer =>
+            {
+                if (gamer.name==""|| gamer.name==null)
+                {
+                    playerToRemove.Add(gamer);
+                }
+            });
+            log.Debug($"Removing {playerToRemove.Count} unnamed players");
+            playerToRemove.ForEach(player =>{
+                game.players.Remove(player);
+            });
         }
 
         internal void stopGame(Object source, ElapsedEventArgs e)
@@ -132,7 +148,7 @@ namespace server
                  x.id == playerID
             );
 
-            if (player==null)
+            if (player == null)
             {
                 log.Info($"No player with ID {playerID} found");
                 return;
@@ -161,8 +177,21 @@ namespace server
             player.score = newScore;
             player.board = board;
         }
+        public IResponse checkAuthorization(long playerID){
+            Player player =game.players.Find(x =>
+                 x.id == playerID
+            );
+            IResponse response=null;
+            if (player==null)
+            {
+                log.Debug($"Player with id {playerID} not authorized");
+                response=new ErrorResponse("You are not authorized to participate!");
+            }
+            return response;
+        }
 
-        internal IResponse getAllPlayers(){
+        internal IResponse getAllPlayers()
+        {
             return new NewPlayerResponse(this.game.players);
         }
     }

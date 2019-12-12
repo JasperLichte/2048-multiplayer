@@ -53,7 +53,7 @@ namespace server.websocket
                             log.Debug("Send Player registered Response to everyone");
                             break;
                         case Commands.REGISTER_PLAYER:
-                            gameHandler.registerPlayerName(command.playerID,command.name);
+                            gameHandler.registerPlayerName(command.playerID, command.name);
                             log.Debug("Registered Playername");
                             broadcastHandler.sendResponseToAll(gameHandler.getAllPlayers());
                             log.Debug("Send Player registered Response to everyone");
@@ -67,12 +67,30 @@ namespace server.websocket
                             log.Debug("Game started");
                             break;
                         case Commands.GET_UPDATE:
-                            await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
-                            log.Debug("Send Get_Update response");
+                            IResponse check = gameHandler.checkAuthorization(command.playerID);
+                            if (check == null)
+                            {
+                                await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
+                                log.Debug("Send Get_Update response");
+                            }
+                            else
+                            {
+                                await SendResponseJson(this.webSocket, check, ct);
+                                broadcastHandler.removeWebSocket(this.webSocket);
+                            }
                             break;
                         case Commands.DO_PLAYER_UPDATE:
-                            gameHandler.updatePlayer(command.playerID, command.newScore, command.board);
-                            log.Debug("Player Update done");
+                            IResponse check2 = gameHandler.checkAuthorization(command.playerID);
+                            if (check2 == null)
+                            {
+                                gameHandler.updatePlayer(command.playerID, command.newScore, command.board);
+                                log.Debug("Player Update done");
+                            }
+                            else
+                            {
+                                await SendResponseJson(this.webSocket, check2, ct);
+                                broadcastHandler.removeWebSocket(this.webSocket);
+                            }
                             break;
                         case Commands.UNREGISTER:
                             gameHandler.unregisterPlayer(command.playerID);
