@@ -43,12 +43,12 @@ export default class Connection {
     switch (data.type) {
       case RequestTypes.REGISTERED:
         return MessageHandler.registererd(data);
+      case RequestTypes.NEW_PLAYER_REGISTERED:
+        return MessageHandler.newPlayerRegistered(data);
       case RequestTypes.GAME_STARTED:
         return MessageHandler.gameStarted(data);
       case RequestTypes.UPDATE:
         return MessageHandler.update(data);
-      case RequestTypes.UNREGISTERED:
-        return MessageHandler.unregistered(data);
       case RequestTypes.GAME_ENDED:
         return MessageHandler.gameEnded(data);
       case RequestTypes.GAME_CLOSED:

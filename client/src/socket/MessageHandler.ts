@@ -9,6 +9,7 @@ import Connection from "./Connection.js";
 import Player from "../game/Player.js";
 import Tile from "../game/Tile.js";
 import config from "../config/config.js";
+import RenderHelper from "../helpers/RenderHelper.js";
 
 export default class MessageHandler {
 
@@ -30,6 +31,18 @@ export default class MessageHandler {
         {id: 'admin-badge'},
         $('#welcome-card')
       );
+    }
+  }
+
+  public static newPlayerRegistered(data: {}) {
+    // @ts-ignore
+    const { players } = data;
+    if (Globals.game.getStatus() === Status.CREATED) {
+      RenderHelper.connectedPlayers(players.map(p => {
+        const player = new Player(p.id, false, p.isAdmin);
+        player.setName(p.name);
+        return player;
+      }));
     }
   }
 
@@ -72,8 +85,6 @@ export default class MessageHandler {
 
     Globals.game.update();
   }
-
-  public static unregistered(data: {}) {}
 
   public static gameEnded(data: {}) {
     Globals.game.setStatus(Status.FINISHED);

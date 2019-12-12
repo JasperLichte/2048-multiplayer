@@ -1,6 +1,4 @@
-import Connection from "./socket/Connection.js";
 import { $ } from "./helpers/DomHelper.js";
-import Globals from "./Globals.js";
 import MessageHandler from "./socket/MessageHandler.js";
 import RequestTypes from "./socket/RequestTypes.js";
 

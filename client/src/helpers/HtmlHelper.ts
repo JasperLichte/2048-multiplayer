@@ -60,6 +60,14 @@ export default class HtmlHelper {
     return HtmlHelper.element('h2')(content, attribs)(target);
   }
 
+  public static h3(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('h3')(content, attribs)(target);
+  }
+
   public static p(
     content: string|HTMLElement|HTMLElement[] = null,
     attribs: {} = {},
@@ -98,6 +106,22 @@ export default class HtmlHelper {
     target: HTMLElement = null
   ): HTMLElement {
     return HtmlHelper.element('th')(content, attribs)(target);
+  }
+
+  public static ul(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('ul')(content, attribs)(target);
+  }
+
+  public static li(
+    content: string|HTMLElement|HTMLElement[] = null,
+    attribs: {} = {},
+    target: HTMLElement = null
+  ): HTMLElement {
+    return HtmlHelper.element('li')(content, attribs)(target);
   }
 
 }

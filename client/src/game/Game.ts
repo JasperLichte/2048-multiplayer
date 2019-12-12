@@ -106,28 +106,37 @@ export default class Game {
   }
 
   private $createPlayerBoard(player: Player) {
-    const $board = document.createElement('div');
+    const $board = HtmlHelper.div(null, {
+      id:  `board-${player.getId()}`,
+      class: 'remote',
+    });
 
-    $board.setAttribute('id', `board-${player.getId()}`);
-    $board.setAttribute('class', 'remote');
+    HtmlHelper.h2(
+      player.getName(),
+      {class: 'player-name'},
+      $board
+    );
 
-    const $score = document.createElement('h2');
-    $score.innerText = player.getScore().toString();
-    $score.setAttribute('class', 'score');
-    $board.appendChild($score);
+    HtmlHelper.h3(
+      player.getScore().toString(),
+      {class: 'score'},
+      $board
+    );
 
-    const $tiles = document.createElement('div');
+    const $tiles = HtmlHelper.div();
     for(let y = 0; y < player.getBoard().getTiles().length; y++) {
       const row = player.getBoard().getTiles()[y];
-      const $row = document.createElement('div');
-      $row.setAttribute('class', 'row');
+      const $row = HtmlHelper.div(null, {class: 'row'});
       for (let x = 0; x < row.length; x++) {
         const cell: Tile = row[x];
-        const $cell = document.createElement('span');
-        $cell.setAttribute('class', 'tile');
-        $cell.setAttribute('data-value', `v_${cell.getValue()}`);
-        $cell.innerHTML = cell.getValue().toString();
-        $row.appendChild($cell);
+        HtmlHelper.span(
+          cell.getValue().toString(),
+          {
+            class: 'tile',
+            'data-value': `v_${cell.getValue()}`, 
+          },
+          $row
+        );
       }
       $tiles.appendChild($row);
     }

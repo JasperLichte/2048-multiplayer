@@ -12,7 +12,7 @@ export default class Player {
   private board: Board;
   private score: number = 0;
   public isLocalPlayer: boolean = false;
-  private isAdmin: boolean = false;
+  public isAdmin: boolean = false;
   private name: string = '';
 
   constructor(id: number, isLocalPlayer: boolean, isAdmin: boolean) {
