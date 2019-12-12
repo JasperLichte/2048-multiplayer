@@ -76,7 +76,10 @@ namespace server.websocket
                             break;
                         case Commands.UNREGISTER:
                             gameHandler.unregisterPlayer(command.playerID);
+                            broadcastHandler.removeWebSocket(this.webSocket);
                             log.Debug("Removed Player");
+                            broadcastHandler.sendResponseToAll(gameHandler.getAllPlayers());
+                            log.Debug("Send registered Response to everyone after unregistering a person");
                             break;
                     }
                 }
