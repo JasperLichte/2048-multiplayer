@@ -36,7 +36,7 @@ namespace server.websocket
                     break;
                 }
                 var command = await ReceiveJSOnAsync(this.webSocket, ct);
-                log.Debug(JsonConvert.SerializeObject(command));
+                log.Debug($"Got Command {JsonConvert.SerializeObject(command)}");
                 if (this.webSocket.State.ToString() == "Open")
                 {
                     switch (command.type)
@@ -106,6 +106,7 @@ namespace server.websocket
                 using (var reader = new StreamReader(ms, Encoding.UTF8))
                 {
                     String temp = await reader.ReadToEndAsync();
+                    log.Debug($"Received json string: {temp}");
                     //Deserialize JSON string to a 'WebsocketRequest' object
                     return JsonConvert.DeserializeObject<WebSocketRequest>(temp);
                 }
