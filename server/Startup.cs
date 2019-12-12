@@ -18,8 +18,6 @@ namespace server
 {
     public class Startup
     {
-        private object loggerFactory;
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

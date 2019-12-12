@@ -10,8 +10,7 @@ namespace server.websocket
         GAME_START=2,
         GET_UPDATE=3,
         DO_PLAYER_UPDATE=4,
-        GET_PLAYER_BOARD=5,
-        UNREGISTER=6,
-        REGISTER_PLAYER=7
+        UNREGISTER=5,
+        REGISTER_PLAYER=6
     }
 }

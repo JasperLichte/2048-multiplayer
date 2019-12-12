@@ -8,12 +8,10 @@ namespace server.model
     {
         UPDATE = 0,
         REGISTERED = 1,
-        UNREGISTER = 2,
-        GAME_STARTED = 3,
-        GAME_ENDED=4,
-        SCORE_UPDATE=5,
-        ERROR=6,
-        PLAYER_BOARD=7,
-        GAME_CLOSED=8
+        GAME_STARTED = 2,
+        GAME_ENDED=3,
+        ERROR=4,
+        NEW_PLAYER_REGISTERED=5,
+        GAME_CLOSED=6
     }
 }

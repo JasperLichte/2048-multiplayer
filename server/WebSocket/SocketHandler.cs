@@ -71,10 +71,6 @@ namespace server.websocket
                             gameHandler.updatePlayer(command.playerID, command.newScore, command.board);
                             log.Debug("Player Update done");
                             break;
-                        case Commands.GET_PLAYER_BOARD:
-                            //send board of playerid
-
-                            break;
                         case Commands.UNREGISTER:
                             gameHandler.unregisterPlayer(command.playerID);
                             log.Debug("Removed Player");
