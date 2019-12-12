@@ -48,8 +48,10 @@ namespace server
         }
         public void sendResponseToAll(IResponse response)
         {
+            
             if (websockets.Count > 0)
             {
+                log.Debug($"Sending {response.GetType().ToString()} to {websockets.Count} websockets");
                 websockets.ForEach(websocket =>
                 {
                     Task.Run(() =>
@@ -61,6 +63,12 @@ namespace server
                     });
                 });
             }
+        }
+        public void removeAllWebsockets(){
+            websockets.ForEach(websocket=>{
+                websocket.Abort();
+            });
+            this.websockets = new List<WebSocket>();
         }
     }
 }

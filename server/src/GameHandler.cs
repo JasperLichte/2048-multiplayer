@@ -49,6 +49,7 @@ namespace server
             if (game.status == Status.FINISHED)
             {
                 this.game = new Game(this.game.id + 1);
+                BroadcastHandler.getBroadcastHandler().removeAllWebsockets();
                 return registerPlayer();
             }
             return new ErrorResponse("Game is not open for registration!");
