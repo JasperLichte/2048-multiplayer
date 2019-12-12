@@ -49,6 +49,8 @@ namespace server.websocket
                             broadcastHandler.addWebSocket(this.webSocket);
                             await SendResponseJson(this.webSocket, gameHandler.getUpdate(), ct);
                             log.Debug("Send Update response");
+                            broadcastHandler.sendResponseToAll(gameHandler.getAllPlayers());
+                            log.Debug("Send Player registered Response to everyone");
                             break;
                         case Commands.REGISTER_PLAYER:
                             gameHandler.registerPlayerName(command.playerID,command.name);
