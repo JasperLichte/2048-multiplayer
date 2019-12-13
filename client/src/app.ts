@@ -1,8 +1,11 @@
 import { $ } from "./helpers/DomHelper.js";
 import MessageHandler from "./socket/MessageHandler.js";
 import RequestTypes from "./socket/RequestTypes.js";
+import Config from "./game/Config.js";
 
 (() => {
+  console.info(`Version: ${Config.APP_VERSION}`);
+
   const $welcomeCard = $('#welcome-card');
   const $name: HTMLInputElement = $welcomeCard.querySelector('#name');
   const $start: HTMLButtonElement = $welcomeCard.querySelector('#start'); 
