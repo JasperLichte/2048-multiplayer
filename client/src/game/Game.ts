@@ -97,17 +97,31 @@ export default class Game {
   public end(): void {}
 
   private renderOtherPlayerBoards(): void {
+    let playersToRender: Player[] = this.getOtherPlayers();
+    let remainingPlayers: Player[] = []
+    if (playersToRender.length > 6) {
+      playersToRender = this.getOtherPlayers().slice(0, 4)
+      remainingPlayers = this.getOtherPlayers().filter(p => !playersToRender.includes(p));
+    }
+
     $('#remote-player-board-wrapper').setAttribute(
       'data-nr-of-players',
-      `v_${this.getOtherPlayers().length.toString()}`
+      `v_${playersToRender.length.toString()}`
     );
     
-    for (const player of this.getOtherPlayers()) {
+    playersToRender.forEach(player => {
       if (!$(`#game #board-${player.getId()}`)) {
         this.$createPlayerBoard(player);
       }
       this.$updatePlayerBoard(player);
-    }
+    });
+
+    remainingPlayers.forEach(player => {
+      if (!$(`#game #remaining-players #player-card-${player.getId()}`)) {
+        this.$createPlayerCard(player);
+      }
+      this.$updatePlayerCard(player);
+    });
   }
 
   private $createPlayerBoard(player: Player) {
@@ -149,7 +163,7 @@ export default class Game {
 
     $board.appendChild($tiles);
 
-    $('#remote-player-board-wrapper').appendChild($board);
+    $('#remote-player-board-wrapper #remote-boards').appendChild($board);
   }
 
   private $updatePlayerBoard(player: Player) {
@@ -169,6 +183,26 @@ export default class Game {
         $cell.setAttribute('data-value', `v_${cell.getValue()}`);
       }
     }
+  }
+
+  private $createPlayerCard(player: Player) {
+    HtmlHelper.div(
+      [
+        HtmlHelper.h3(player.getName()),
+        HtmlHelper.p(player.getScore().toString(), {class: 'score'}),
+      ],
+      {
+        id: `player-card-${player.getId()}`,
+        class: 'player-card'
+      },
+      $('#remote-player-board-wrapper #remaining-players')
+    );
+  }
+
+  private $updatePlayerCard(player: Player) {
+    const $card = $(`#game #remaining-players #player-card-${player.getId()}`);
+    const $score: HTMLParagraphElement = $card.querySelector('.score');
+    $score.innerText = player.getScore().toString();
   }
 
   public $renderScoreboard() {

@@ -18,21 +18,26 @@
     display: flex;
     justify-content: center;
 
-    & > #remote-player-board-wrapper,
-    & > #local-player-board-wrapper {
-      padding: 16px;
+    & #remote-player-board-wrapper {
       max-height: 100%;
+      display: flex;
+      flex-grow: 1;
+    }
+
+    & #remote-player-board-wrapper #remote-boards,
+    & #local-player-board-wrapper {
+      padding: 16px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    & > #local-player-board-wrapper {
+    & #local-player-board-wrapper {
       flex-shrink: 0;
       flex-grow: 0;
     }
 
-    & > #remote-player-board-wrapper {
+    & #remote-player-board-wrapper #remote-boards {
       flex-grow: 1;
       flex-wrap: wrap;
 
@@ -62,6 +67,22 @@
           width: 40px;
           height: 40px;
         }
+      }
+    }
+
+    & #remote-player-board-wrapper #remaining-players {
+      height: 100%;
+      overflow: hidden;
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+
+      & .player-card {
+        width: 300px;
+        margin-bottom: .25rem;
+        color: #ccc;
+        background-color: rgba(20, 20, 20, .7);
       }
     }
   }

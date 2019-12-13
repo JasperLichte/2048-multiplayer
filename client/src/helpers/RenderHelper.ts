@@ -4,6 +4,7 @@ import { $ } from './DomHelper.js';
 import Globals from "../Globals.js";
 
 export default class RenderHelper {
+
   public static connectedPlayers(players: Player[]) {
     players = players.filter(p => p.getId() !== Globals.game.getLocalPlayerId());
     const registeredPlayers = players.filter(p => !!p.getName());
@@ -26,4 +27,5 @@ export default class RenderHelper {
       $('#welcome-card')
     );
   }
+  
 }
