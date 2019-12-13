@@ -57,19 +57,22 @@ namespace server
                 KeepAliveInterval = TimeSpan.FromSeconds(60),
                 ReceiveBufferSize = 8192
             };
-
+            //enable websocket with prior declared options
             app.UseWebSockets(webSocketOptions);
             app.UseMvc();
+            //use self defined policy(see Configure Services) for Cross-Origin Resource Sharing (CORS)
             app.UseCors("MyPolicy");
             Config config = Config.loadConfig();
             ThreadPool.SetMinThreads(config.maxUsers, config.maxUsers);
             app.Use(async (context, next) =>
             {
+                //catch http requests at /server and check if it is a websocket request
                 if (context.Request.Path == "/server")
                 {
                     if (context.WebSockets.IsWebSocketRequest)
                     {
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        //every websocket has its own SocketHandler
                         SocketHandler doorSocket = new SocketHandler();
                         await doorSocket.socketHandle(context, webSocket);
                     }

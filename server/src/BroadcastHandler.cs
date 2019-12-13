@@ -11,6 +11,8 @@ using server.model.responses;
 
 namespace server
 {
+    //Singleton/only 1 object exists at runtime
+    //object can be accessed via the getInstance() method
     class BroadcastHandler
     {
         private List<WebSocket> websockets;
@@ -46,6 +48,7 @@ namespace server
         {
             websockets.Remove(webSocket);
         }
+        //schedules 1 thread for each websocket to send a message to
         public void sendResponseToAll(IResponse response)
         {
 
@@ -53,6 +56,7 @@ namespace server
             {
 
                 log.Debug($"Sending {response.GetType().ToString()} to {websockets.Count} websockets");
+                //lock the websocket list so no other thread can modify the list while a message is being send
                 lock (websockets)
                 {
                     websockets.ForEach(websocket =>
