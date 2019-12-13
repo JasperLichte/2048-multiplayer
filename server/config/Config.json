@@ -1,7 +1,7 @@
 {
     "maxUsers":24,
     "boardSize":4,
-    "roundDuration":5000,
-    "connectionString":"server=localhost;database=game2048;user ID=root;"
-
+    "roundDuration":60000,
+    "connectionString":"server=localhost;database=game2048;user ID=root;",
+    "updateIntervall":500
 }
