@@ -16,11 +16,12 @@ export default class MessageHandler {
   public static registererd(data: {}) {
     // @ts-ignore
     const { gameID, localPlayerID, isAdmin, config } = data;
-    const { boardSize, maxUsers, roundDuration } = config;
+    const { boardSize, maxUsers, roundDuration, updateIntervall } = config;
 
-    boardSize && (Config.BOARD_SIZE = boardSize);
-    maxUsers && (Config.MAX_USERS = maxUsers);
-    roundDuration && (Config.ROUND_DURATION = roundDuration);
+    boardSize && (Config.BOARD_SIZE = parseInt(boardSize));
+    maxUsers && (Config.MAX_USERS = parseInt(maxUsers));
+    roundDuration && (Config.ROUND_DURATION = parseInt(roundDuration));
+    updateIntervall && (Config.UPDATE_INTERVALL = parseInt(updateIntervall));
 
     Globals.game = new Game(gameID, localPlayerID, isAdmin);
     Globals.game.setRemainingTime(Config.ROUND_DURATION);
@@ -135,7 +136,7 @@ export default class MessageHandler {
       }
       
       MessageHandler.send(RequestTypes.GET_UPDATE);
-    }, 500);
+    }, Config.UPDATE_INTERVALL);
   }
 
 }
