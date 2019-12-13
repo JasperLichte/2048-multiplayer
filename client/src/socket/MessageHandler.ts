@@ -105,14 +105,10 @@ export default class MessageHandler {
     // @ts-ignore
     const { message } = data;
 
-    Globals.game.setStatus(Status.FINISHED);
-    try {
-      const $errorCard = $('#error-card');
-      $errorCard.innerText = message;
-      $errorCard.classList.add('visible');
-    } catch (e) {
-      console.log(e)
-    }
+    Globals.game && Globals.game.setStatus(Status.FINISHED);
+    const $errorCard = $('#error-card');
+    $errorCard.innerText = message;
+    $errorCard.classList.add('visible');
   }
 
   // outgoing
