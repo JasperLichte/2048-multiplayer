@@ -104,7 +104,7 @@ export default class Game {
       remainingPlayers = this.getOtherPlayers().filter(p => !playersToRender.includes(p));
     }
 
-    $('#remote-player-board-wrapper').setAttribute(
+    $('#remote-player-board-wrapper #remote-boards').setAttribute(
       'data-nr-of-players',
       `v_${playersToRender.length.toString()}`
     );

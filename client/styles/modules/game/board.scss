@@ -1,17 +1,18 @@
-.board {
-  display: inline-block;
-  padding: 10px;
-  margin-top: 8px;
-  background: rgb(187, 173, 160);
-  border-radius: 6px;
-
-  @import './tile.scss';
-}
-
 .board-wrapper {
   padding: 16px;
+  color: #eee;
 
   &.local {
     background-color: rgb(226, 185, 19);
+  }
+
+  .board {
+    display: inline-block;
+    padding: 10px;
+    margin-top: 8px;
+    background: rgb(187, 173, 160);
+    border-radius: 6px;
+
+    @import './tile.scss';
   }
 }

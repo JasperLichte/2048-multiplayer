@@ -62,9 +62,8 @@ export default class MessageHandler {
     .map(p => {
       const player = new Player(p.id, p.id === Globals.game.getLocalPlayerId, p.isAdmin);
       player.setScore(p.score);
-      player.setTiles(
-        p.board.tiles.map(r => r.map(c => new Tile(c.value)))
-      );
+      player.setName(p.name);
+      player.setTiles(p.board.tiles.map(r => r.map(c => new Tile(c.value))));
       return player;
     }));
 
@@ -87,6 +86,8 @@ export default class MessageHandler {
   }
 
   public static gameEnded(data: {}) {
+    MessageHandler.update(data);
+
     Globals.game.setStatus(Status.FINISHED);
     Globals.game.setRemainingTime(0);
     Globals.game.$renderScoreboard();
@@ -129,10 +130,12 @@ export default class MessageHandler {
 
   private static initRequestUpdateTimer() {
     setInterval(() => {
-      if (Globals.game.getStatus() !== Status.RUNNING) return;
+      if (Globals.game.getStatus() !== Status.RUNNING) {
+        return;
+      }
       
       MessageHandler.send(RequestTypes.GET_UPDATE);
-    }, 500)
+    }, 500);
   }
 
 }

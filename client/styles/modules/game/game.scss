@@ -51,12 +51,14 @@
         & .board .tile {
           width: 80px;
           height: 80px;
+          margin: 6px;
         }
       }
       &[data-nr-of-players=v_2] {
         & .board .tile {
           width: 60px;
           height: 60px;
+          margin: 4px;
         }
       }
       &[data-nr-of-players=v_3],
@@ -66,13 +68,15 @@
         & .board .tile {
           width: 40px;
           height: 40px;
+          margin: 2px;
         }
       }
     }
 
     & #remote-player-board-wrapper #remaining-players {
       height: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       max-width: 300px;
       display: flex;
       flex-direction: column;
@@ -83,6 +87,7 @@
         margin-bottom: .25rem;
         color: #ccc;
         background-color: rgba(20, 20, 20, .7);
+        padding: 4px 8px;
       }
     }
   }
