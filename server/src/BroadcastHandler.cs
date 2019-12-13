@@ -32,7 +32,7 @@ namespace server
         private void timerElapsed(object sender, EventArgs e)
         {
             log.Debug("Broadcasthandler called timeelapsed event");
-            sendResponseToAll(new GameEndedResponse());
+            sendResponseToAll(new GameEndedResponse(gameHandler.game.players));
         }
 
         public static BroadcastHandler getBroadcastHandler()
@@ -59,6 +59,7 @@ namespace server
                 //lock the websocket list so no other thread can modify the list while a message is being send
                 lock (websockets)
                 {
+                    lock(gameHandler.game.players) {
                     websockets.ForEach(websocket =>
                     {
                         Task.Run(() =>
@@ -69,6 +70,7 @@ namespace server
                             websocket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
                         });
                     });
+                }
                 }
             }
         }
