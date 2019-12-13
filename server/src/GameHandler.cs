@@ -43,17 +43,20 @@ namespace server
         }
         internal IResponse registerNewPlayer()
         {
-            if (game.allowedToRegister())
-            {
-                return registerPlayer();
-            }
             if (game.status == Status.FINISHED)
             {
                 this.game = new Game(this.game.id + 1);
                 BroadcastHandler.getBroadcastHandler().removeAllWebsockets();
                 return registerPlayer();
             }
-            return new ErrorResponse("Game is not open for registration!");
+            if (game.allowedToRegister(config.maxUsers))
+            {
+                return registerPlayer();
+            }
+            else
+            {
+                return new ErrorResponse("Game not open for registration or max user count reached!");
+            }
         }
 
         private IResponse registerPlayer()
@@ -116,17 +119,19 @@ namespace server
             log.Debug("Started Timer");
             return true;
         }
-        private void removeUnnamedPlayers(){
+        private void removeUnnamedPlayers()
+        {
             List<Player> playerToRemove = new List<Player>();
             game.players.ForEach(gamer =>
             {
-                if (gamer.name==""|| gamer.name==null)
+                if (gamer.name == "" || gamer.name == null)
                 {
                     playerToRemove.Add(gamer);
                 }
             });
             log.Debug($"Removing {playerToRemove.Count} unnamed players");
-            playerToRemove.ForEach(player =>{
+            playerToRemove.ForEach(player =>
+            {
                 game.players.Remove(player);
             });
         }
@@ -177,15 +182,16 @@ namespace server
             player.score = newScore;
             player.board = board;
         }
-        public IResponse checkAuthorization(long playerID){
-            Player player =game.players.Find(x =>
-                 x.id == playerID
+        public IResponse checkAuthorization(long playerID)
+        {
+            Player player = game.players.Find(x =>
+                  x.id == playerID
             );
-            IResponse response=null;
-            if (player==null)
+            IResponse response = null;
+            if (player == null)
             {
                 log.Debug($"Player with id {playerID} not authorized");
-                response=new ErrorResponse("You are not authorized to participate!");
+                response = new ErrorResponse("You are not authorized to participate!");
             }
             return response;
         }

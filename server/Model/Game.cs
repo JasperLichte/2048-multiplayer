@@ -30,9 +30,9 @@ namespace server.model
             this.EndDatum = EndDatum;
         }
 
-        public bool allowedToRegister()
+        public bool allowedToRegister(int allowed)
         {
-           if(status==Status.CREATED)
+           if(status==Status.CREATED&& players.Count < allowed)
            {
                return true;
            }
