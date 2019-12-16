@@ -9,7 +9,7 @@ namespace server.model
         public int maxUsers {get;set;}
         public int boardSize{get;set;}
         public long roundDuration{get;set;}
-        [JsonIgnore]
+        
         public String connectionString {get;set;}
         public long updateIntervall {get;set;}
 
@@ -25,6 +25,12 @@ private Config(){
                 config = (Config)serializer.Deserialize(file, typeof(Config));
             }
             return config;
+        }
+        //Gets called by Newtonsoft Json Converter
+        //shoul the connectionString be serialized(written to json String) 
+        public bool ShouldSerializeconnectionString()
+        {
+            return false;
         }
     }
 }
