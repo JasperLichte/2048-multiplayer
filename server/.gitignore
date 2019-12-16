@@ -1,6 +1,15 @@
 .vscode
 bin
+
 obj/Debug
 obj/Debug/server.csproj.CoreCompileInputs.cache
+obj/project.assets.json
+obj/server.csproj.nuget.cache
+obj/server.csproj.nuget.g.props
+obj/Debug/netcoreapp2.1/project.razor.json
+obj/Debug/netcoreapp2.1/server.assets.cache
+obj/Debug/netcoreapp2.1/server.csproj.CoreCompileInputs.cache
+obj/Debug/netcoreapp2.1/server.csprojAssemblyReference.cache
+
 wwwroot
 2048MPServer.log

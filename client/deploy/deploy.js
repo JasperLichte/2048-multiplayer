@@ -13,7 +13,7 @@ const fse = require('fs-extra');
       `Files are ready to be deployed: ${await fse.realpath(targetDir)}`
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 })({
   rootDir: './',

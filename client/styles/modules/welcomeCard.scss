@@ -60,6 +60,8 @@
     color: black;
     font-size: 1.4rem;
     padding: 1rem;
+    max-height: 30vh;
+    overflow-y: auto;
 
     & ul {
       list-style-type: none;

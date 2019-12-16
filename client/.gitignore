@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+build
+src/config/config.ts
+assets/scripts/bundle.js
+assets/styles/bundle.css
+assets/styles/bundle.css.map
+package-lock.json
