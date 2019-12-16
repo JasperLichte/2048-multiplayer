@@ -52,14 +52,124 @@ namespace server
             }
             return list[0];
         }
+        public List<RestGame> loadGameData(int numberOfPlayer)
+        {
+            List<RestGame> list = new List<RestGame>();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand($"select * from game order by GameID DESC LIMIT {numberOfPlayer}", conn);
+                // Try catch for the case there are no entries in the DB 
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            log.Debug(reader.GetInt32(0));
+                            //add an entry to the list with the parameters of a Game() 
+                            list.Add(new RestGame(reader.GetInt32(0), reader.GetDateTime(1), reader.GetDateTime(2)));
+                        }
+                    }
+                }
+                catch (System.Exception)
+                {
 
+                    list.Add(new RestGame(0, DateTime.Now, DateTime.Now));
+                }
+
+            }
+            log.Debug(JsonConvert.SerializeObject(list));
+            if (list.Count == 0)
+            {
+                return null;
+            }
+            return list;
+        }
+
+        public List<RestScore> highestScore()
+        {
+            List<RestScore> list = new List<RestScore>();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand highestScore =new MySqlCommand("select game.GameID, spieler.Name, scores.Score , game.StartDatum, game.EndDatum "
+                +"from game " 
+               +"join scores on scores.GameID = game.GameID "
+               +" join spieler on spieler.PlayerID = scores.PlayerID "
+               +" where scores.score=(select max(scores.Score) from scores)",conn);
+                // Try catch for the case there are no entries in the DB 
+                try
+                {
+                    using (var reader = highestScore.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            log.Debug(reader.GetInt32(0));
+                            //add an entry to the list with the parameters of a Game() 
+                            list.Add(new RestScore(reader.GetInt32(0), reader.GetString(1) , reader.GetInt32(2) , reader.GetDateTime(3), reader.GetDateTime(4)));
+                        }
+                    }
+                }
+                catch (System.Exception)
+                {
+
+                    list.Add(new RestScore(0,"", 0, DateTime.Now, DateTime.Now));
+                }
+
+            }
+            log.Debug(JsonConvert.SerializeObject(list));
+            if (list.Count == 0)
+            {
+                return null;
+            }
+            return list;
+        }
+
+
+public List<RestPlayerCountGame> playerCountGame()
+        {
+            List<RestPlayerCountGame> list = new List<RestPlayerCountGame>();
+            using (var conn = GetConnection())
+            {
+                conn.Open();
+                MySqlCommand playerCountGame = new MySqlCommand("select spieler.Name, Count(spieler.Name) as AnzahlSpiele "
+                            +"from spieler "
+                            +"group by spieler.Name "
+                            +"order by AnzahlSpiele DESC LIMIT 1", conn); 
+                // Try catch for the case there are no entries in the DB 
+                try
+                {
+                    using (var reader = playerCountGame.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //add an entry to the list with the parameters of a Game() 
+                            list.Add(new RestPlayerCountGame(reader.GetString(0), reader.GetInt32(1)));
+                        }
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    log.Debug(e);
+                    list.Add(new RestPlayerCountGame("",0));
+                }
+
+            }
+            log.Debug(JsonConvert.SerializeObject(list));
+            if (list.Count == 0)
+            {
+                return null;
+            }
+            return list;
+        }
         public Player loadLastPlayerData()
         {
             List<Player> list = new List<Player>();
             using (var conn = GetConnection())
             {
                 conn.Open();
-                MySqlCommand cmd = new MySqlCommand("select *  from spieler order by GameID DESC LIMIT 1", conn);
+                MySqlCommand cmd = new MySqlCommand("select *  from spieler order by PlayerID DESC LIMIT 1", conn);
                 // Try catch for add an test entry for the database to get the next id 
                 try
                 {
@@ -72,8 +182,9 @@ namespace server
                         }
                     }
                 }
-                catch (MySqlException)
+                catch (MySqlException e)
                 {
+                    log.Debug(e);
                     list.Add(new Player(0, "Hallo"));
 
                 }
