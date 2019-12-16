@@ -239,7 +239,18 @@ export default class Board {
   public isEqualTo(other: Tile[][]): boolean {
     for (let y = 0; y < other.length; y++) {
       for (let x = 0; y < other[y].length; x++) {
-        if (other[y][x] !== this.tiles[y][x]) {
+        if (other[y][x].getValue() !== this.tiles[y][x].getValue()) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  public isFull(): boolean {
+    for (let y = 0; y < this.tiles.length; y++) {
+      for (let x = 0; y < this.tiles[y].length; x++) {
+        if (this.tiles[y][x].getValue() === 0) {
           return false;
         }
       }

@@ -54,6 +54,10 @@ export default class Player {
   }
 
   private doMove(direction: Direction): void {
+    if (this.board.isFull()) {
+      return;
+    }
+
     const shift = Board.shift(direction);
 
     let pointsEarned = 0;
