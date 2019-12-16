@@ -54,7 +54,7 @@ export default class Player {
   }
 
   private doMove(direction: Direction): void {
-    if (this.board.isFull()) {
+    if (!this.board.canDoMove()) {
       return;
     }
 

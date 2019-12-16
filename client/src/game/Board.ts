@@ -238,7 +238,7 @@ export default class Board {
 
   public isEqualTo(other: Tile[][]): boolean {
     for (let y = 0; y < other.length; y++) {
-      for (let x = 0; y < other[y].length; x++) {
+      for (let x = 0; x < other[y].length; x++) {
         if (other[y][x].getValue() !== this.tiles[y][x].getValue()) {
           return false;
         }
@@ -247,14 +247,44 @@ export default class Board {
     return true;
   }
 
-  public isFull(): boolean {
+  private isFull(): boolean {
     for (let y = 0; y < this.tiles.length; y++) {
-      for (let x = 0; y < this.tiles[y].length; x++) {
+      for (let x = 0; x < this.tiles[y].length; x++) {
         if (this.tiles[y][x].getValue() === 0) {
           return false;
         }
       }
     }
+    return true;
+  }
+
+  private isMergeable(): boolean {
+    let rows = this.tiles;
+    for (let y = 0; y < rows.length; y++) {
+      for (let x = 0; x < rows[y].length - 1; x++) {
+        if (rows[y][x].getValue() === rows[y][x + 1].getValue()) {
+          return true;
+        }
+      }
+    }
+
+    rows = Board.rotate(rows);
+    for (let y = 0; y < rows.length; y++) {
+      for (let x = 0; x < rows[y].length - 1; x++) {
+        if (rows[y][x].getValue() === rows[y][x + 1].getValue()) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  public canDoMove(): boolean {
+    if (this.isFull()) {
+      return this.isMergeable();
+    }
+
     return true;
   }
 
