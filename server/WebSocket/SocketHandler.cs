@@ -63,10 +63,9 @@ namespace server.websocket
                             break;
                         case Commands.REGISTER_PLAYER:
                             //update the players name, only players with a name are allowed to play
-                            gameHandler.registerPlayerName(request.playerID, request.name);
-                            log.Debug("Registered Playername");
                             //inform all players
-                            broadcastHandler.sendResponseToAll(gameHandler.getAllPlayers());
+                            broadcastHandler.sendResponseToAll(gameHandler.registerPlayerName(request.playerID, request.name));
+                            log.Debug("Registered Playername");
                             log.Debug("Send Player registered Response to everyone");
                             break;
                         case Commands.GAME_START:

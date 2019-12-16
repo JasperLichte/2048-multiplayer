@@ -91,12 +91,19 @@ namespace server
             }
         }
 
-        internal void registerPlayerName(long playerID, string name)
+        internal IResponse registerPlayerName(long playerID, string name)
         {
+
+            if (game.players.Find(x => x.name == name)!=null)
+            {
+                return new ErrorResponse($"Player {name} already registered");
+            }
+
             Player player = game.players.Find(x =>
                  x.id == playerID
             );
             player.name = name;
+            return new NewPlayerResponse(this.game.players);
         }
 
         internal Boolean startGame(long playerID)
@@ -114,6 +121,7 @@ namespace server
             timer = new Timer(config.roundDuration);
             timer.Elapsed += stopGame;
             timer.AutoReset = false;
+            game.StartDatum=DateTime.Now;
             timer.Start();
             startTime = DateTime.Now;
             log.Debug("Started Timer");
