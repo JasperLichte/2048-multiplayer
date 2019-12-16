@@ -59,18 +59,22 @@ namespace server
                 //lock the websocket list so no other thread can modify the list while a message is being send
                 lock (websockets)
                 {
-                    lock(gameHandler.game.players) {
-                    websockets.ForEach(websocket =>
+                    lock (gameHandler.game.players)
                     {
-                        Task.Run(() =>
+                        lock (response)
                         {
-                            string data = JsonConvert.SerializeObject(response);
-                            var buffer = Encoding.UTF8.GetBytes(data);
-                            var segment = new ArraySegment<byte>(buffer);
-                            websocket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
-                        });
-                    });
-                }
+                            websockets.ForEach(websocket =>
+                            {
+                                Task.Run(() =>
+                                {
+                                    string data = JsonConvert.SerializeObject(response);
+                                    var buffer = Encoding.UTF8.GetBytes(data);
+                                    var segment = new ArraySegment<byte>(buffer);
+                                    websocket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
+                                });
+                            });
+                        }
+                    }
                 }
             }
         }
