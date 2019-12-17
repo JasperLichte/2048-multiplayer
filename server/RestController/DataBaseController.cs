@@ -30,8 +30,8 @@ namespace server.Controllers
             return dbquery.highestScore();// NotFound();
         }
 
-        [HttpGet("countGameOfPlayer", Name = "countGameOfPlayer")]
-        public ActionResult<List<RestPlayerCountGame>> countGameOfPlayer()
+        [HttpGet("PlayerMostGames", Name = "GetPlayerMostGames")]
+        public ActionResult<List<RestPlayerCountGame>> PlayerMostGames()
         {
             return dbquery.playerCountGame();
         }
