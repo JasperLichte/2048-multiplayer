@@ -13,7 +13,6 @@ namespace server
     class GameHandler
     {
         public Game game;
-        //https://stackoverflow.com/questions/2278525/system-timers-timer-how-to-get-the-time-remaining-until-elapse
         private Timer timer;
         private DateTime startTime;
         private Config config;

@@ -1,6 +1,4 @@
 using System;
-using log4net;
-using server.model.enums;
 
 namespace server.model
 {

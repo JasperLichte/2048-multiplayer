@@ -74,7 +74,6 @@ namespace server
                 }
                 catch (System.Exception)
                 {
-
                     list.Add(new RestGame(0, DateTime.Now, DateTime.Now));
                 }
 
@@ -93,11 +92,11 @@ namespace server
             using (var conn = GetConnection())
             {
                 conn.Open();
-                MySqlCommand highestScore =new MySqlCommand("select game.GameID, spieler.Name, scores.Score , game.StartDatum, game.EndDatum "
-                +"from game " 
-               +"join scores on scores.GameID = game.GameID "
-               +" join spieler on spieler.PlayerID = scores.PlayerID "
-               +" where scores.score=(select max(scores.Score) from scores)",conn);
+                MySqlCommand highestScore = new MySqlCommand("select game.GameID, spieler.Name, scores.Score , game.StartDatum, game.EndDatum "
+                + "from game "
+               + "join scores on scores.GameID = game.GameID "
+               + " join spieler on spieler.PlayerID = scores.PlayerID "
+               + " where scores.score=(select max(scores.Score) from scores)", conn);
                 // Try catch for the case there are no entries in the DB 
                 try
                 {
@@ -107,14 +106,13 @@ namespace server
                         {
                             log.Debug(reader.GetInt32(0));
                             //add an entry to the list with the parameters of a Game() 
-                            list.Add(new RestScore(reader.GetInt32(0), reader.GetString(1) , reader.GetInt32(2) , reader.GetDateTime(3), reader.GetDateTime(4)));
+                            list.Add(new RestScore(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetDateTime(3), reader.GetDateTime(4)));
                         }
                     }
                 }
                 catch (System.Exception)
                 {
-
-                    list.Add(new RestScore(0,"", 0, DateTime.Now, DateTime.Now));
+                    list.Add(new RestScore(0, "", 0, DateTime.Now, DateTime.Now));
                 }
 
             }
@@ -127,16 +125,16 @@ namespace server
         }
 
 
-public List<RestPlayerCountGame> playerCountGame()
+        public List<RestPlayerCountGame> playerCountGame()
         {
             List<RestPlayerCountGame> list = new List<RestPlayerCountGame>();
             using (var conn = GetConnection())
             {
                 conn.Open();
                 MySqlCommand playerCountGame = new MySqlCommand("select spieler.Name, Count(spieler.Name) as AnzahlSpiele "
-                            +"from spieler "
-                            +"group by spieler.Name "
-                            +"order by AnzahlSpiele DESC LIMIT 1", conn); 
+                            + "from spieler "
+                            + "group by spieler.Name "
+                            + "order by AnzahlSpiele DESC LIMIT 1", conn);
                 // Try catch for the case there are no entries in the DB 
                 try
                 {
@@ -152,7 +150,7 @@ public List<RestPlayerCountGame> playerCountGame()
                 catch (System.Exception e)
                 {
                     log.Debug(e);
-                    list.Add(new RestPlayerCountGame("",0));
+                    list.Add(new RestPlayerCountGame("", 0));
                 }
 
             }
