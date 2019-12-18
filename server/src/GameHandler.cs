@@ -32,7 +32,15 @@ namespace server
         {
             this.config = Config.loadConfig();
             this.timer = new Timer(config.roundDuration);
-            this.dataStorage = new DBQueryDummy();
+            if (config.databaseType.ToLower()=="mysql")
+            {
+                this.dataStorage=new MySQLHandler();
+                Console.WriteLine("Enabled MYSQL");
+            }else
+            {
+                this.dataStorage=new DBQueryDummy();
+                Console.WriteLine("Dummy DB");
+            }
             Game lastgame = dataStorage.loadLastGameData();
             this.game = new Game(lastgame == null ? 1 : lastgame.id + 1);
         }

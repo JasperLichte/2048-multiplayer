@@ -2,6 +2,7 @@
     "maxUsers":24,
     "boardSize":4,
     "roundDuration":60000,
+    "databaseType":"MYSQL",
     "connectionString":"server=localhost;database=game2048;user ID=root;",
     "updateIntervall":500
 }
