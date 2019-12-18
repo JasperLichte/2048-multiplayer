@@ -1,0 +1,150 @@
+<Project>
+  <Name>2048MP</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Klassendiragramme</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>GameHandler</Name>
+        <Access>Public</Access>
+        <Location left="370" top="69" />
+        <Size width="352" height="451" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public Game game</Member>
+        <Member type="Field">private Timer timer</Member>
+        <Member type="Field">private DateTime startTime</Member>
+        <Member type="Field">private Config config</Member>
+        <Member type="Field">private IDBQueryHelper dataStorage</Member>
+        <Member type="Field">private static readonly ILog log</Member>
+        <Member type="Field">private static GameHandler gameHandler = new GameHandler()</Member>
+        <Member type="Constructor">private GameHandler()</Member>
+        <Member type="Method">public static GameHandler getHandler()</Member>
+        <Member type="Method">protected virtual void OnTimerElapsed(EventArgs e)</Member>
+        <Member type="Method">public IResponse registerNewPlayer()</Member>
+        <Member type="Method">private IResponse registerPlayer()</Member>
+        <Member type="Method">public IResponse getUpdate()</Member>
+        <Member type="Method">public IResponse registerPlayerName(long playerID, string name)</Member>
+        <Member type="Method">public Boolean startGame(long playerID)</Member>
+        <Member type="Method">private void removeUnnamedPlayers()</Member>
+        <Member type="Method">public void stopGame(Object source, ElapsedEventArgs e)</Member>
+        <Member type="Method">public void unregisterPlayer(long playerID)</Member>
+        <Member type="Method">public void updatePlayer(long playerID, long newScore, Board board)</Member>
+        <Member type="Method">public IResponse checkAuthorization(long playerID)</Member>
+        <Member type="Method">publicIResponse getAllPlayers()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Game</Name>
+        <Access>Public</Access>
+        <Location left="842" top="131" />
+        <Size width="329" height="264" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public long id</Member>
+        <Member type="Field">public long lastPlayerID</Member>
+        <Member type="Field">public Status status</Member>
+        <Member type="Field">public List&lt;Player&gt; players</Member>
+        <Member type="Field">public DateTime startDatum</Member>
+        <Member type="Field">public DateTime EndDatum</Member>
+        <Member type="Field">private static readonly ILog log</Member>
+        <Member type="Constructor">public Game(long gameID)</Member>
+        <Member type="Constructor">public Game(long id, DateTime StartDatum, DateTime EndDatum)</Member>
+        <Member type="Method">public bool allowedToRegister(int allowedUserCount)</Member>
+        <Member type="Method">public void close()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Player</Name>
+        <Access>Public</Access>
+        <Location left="1305" top="79" />
+        <Size width="204" height="196" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public long id</Member>
+        <Member type="Field">public Board board</Member>
+        <Member type="Field">public long score</Member>
+        <Member type="Field">public String name</Member>
+        <Member type="Field">public Boolean isAdmin</Member>
+        <Member type="Constructor">public Player(Config config, long id)</Member>
+        <Member type="Constructor">public Player(long playerID, string name)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Board</Name>
+        <Access>Public</Access>
+        <Location left="1326" top="336" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public List&lt;List&lt;Tile&gt;&gt; tiles</Member>
+        <Member type="Method">public Board fill(Config config)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Tile</Name>
+        <Access>Public</Access>
+        <Location left="1326" top="522" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int value</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SocketHandler</Name>
+        <Access>Public</Access>
+        <Location left="842" top="556" />
+        <Size width="312" height="230" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">WebSocket webSocket</Member>
+        <Member type="Field">GameHandler gameHandler = GameHandler.getHandler()</Member>
+        <Member type="Field">BroadcastHandler broadcastHandler = BroadcastHandler.getBroadcastHandler()</Member>
+        <Member type="Field">CancellationTokenSource source</Member>
+        <Member type="Field">CancellationToken ct</Member>
+        <Member type="Field">private static readonly ILog log = LogManager.GetLogger(typeof(SocketHandler))</Member>
+        <Member type="Method">public Task socketHandle(HttpContext context, WebSocket websocket)</Member>
+        <Member type="Method">private static Task&lt;WebSocketRequest&gt; ReceiveJSOnAsync(WebSocket webSocket, CancellationToken ct)</Member>
+        <Member type="Method">private Task SendResponseJson(WebSocket webSocket, IResponse response, CancellationToken ct)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="3" second="4">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="2" second="3">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="5" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
